@@ -1,0 +1,26 @@
+[
+  {
+    "id": "openai-privacy",
+    "platform": "OpenAI",
+    "type": "Privacy Policy",
+    "url": "https://openai.com/policies/privacy-policy/"
+  },
+  {
+    "id": "meta-terms",
+    "platform": "Meta",
+    "type": "Terms of Service",
+    "url": "https://www.facebook.com/terms.php"
+  },
+  {
+    "id": "x-privacy",
+    "platform": "X (Twitter)",
+    "type": "Privacy Policy",
+    "url": "https://x.com/en/privacy"
+  },
+  {
+    "id": "anthropic-privacy",
+    "platform": "Anthropic",
+    "type": "Privacy Policy",
+    "url": "https://www.anthropic.com/legal/privacy"
+  }
+]
