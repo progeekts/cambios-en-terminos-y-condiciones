@@ -2,132 +2,142 @@ import os
 import json
 import difflib
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
 TRACKED_DIR = "tracked_policies"
 DATA_FILE = "docs/diffs.json"
+STATUS_FILE = "docs/status.json"
 TARGETS_FILE = "scripts/targets.json"
+MAX_LOG = 300
+MAX_DIFF_LINES = 220
 
-# Diccionario de palabras clave para clasificar el impacto
 IMPACT_RULES = {
-    "Entrenamiento de IA / Machine Learning": [
-        r"\bartificial intelligence\b", r"\bmachine learning\b", r"\btrain(ing)? models?\b",
-        r"\bentrenamiento de modelos\b", r"\binteligencia artificial\b"
-    ],
-    "Cesión de datos a terceros / Venta": [
-        r"\bthird-party partners?\b", r"\bshare your data\b", r"\bsell personal information\b",
-        r"\bcompartir con terceros\b", r"\bcesión de datos\b"
-    ],
-    "Arbitraje obligatorio / Renuncia a demandas colectivas": [
-        r"\bbinding arbitration\b", r"\bclass action waiver\b", r"\barbitraje vinculante\b",
-        r"\brenuncia a demanda colectiva\b"
-    ],
-    "Cambio de jurisdicción / Ley aplicable": [
-        r"\bgoverning law\b", r"\bjurisdiction\b", r"\blegislación aplicable\b",
-        r"\btribunales competentes\b"
-    ]
+    "IA y entrenamiento": [r"artificial intelligence", r"machine learning", r"training (our )?models", r"train.*models", r"inteligencia artificial", r"entrenamiento.*modelos"],
+    "Datos personales": [r"personal data", r"personal information", r"datos personales", r"información personal", r"biometric", r"biométric"],
+    "Terceros y cesión de datos": [r"third part(y|ies)", r"affiliates", r"partners", r"share.*data", r"sell.*personal", r"service providers", r"terceros", r"compartir.*datos", r"cesión.*datos"],
+    "Transferencias internacionales": [r"overseas transfer", r"international transfer", r"cross-border", r"transfer.*countr", r"transferencia.*internacional", r"fuera.*país"],
+    "Conservación y eliminación": [r"retention", r"retain.*data", r"account deletion", r"delete.*data", r"conservación", r"retención", r"eliminación.*datos"],
+    "Publicidad y personalización": [r"advertis", r"personalized", r"personalised", r"targeted ads", r"publicidad", r"personalización"],
+    "Propiedad y licencias de contenido": [r"license.*content", r"intellectual property", r"ownership.*content", r"licencia.*contenido", r"propiedad intelectual"],
+    "Arbitraje y acciones colectivas": [r"binding arbitration", r"class action waiver", r"dispute resolution", r"arbitraje vinculante", r"demanda colectiva"],
+    "Jurisdicción y ley aplicable": [r"governing law", r"jurisdiction", r"applicable law", r"legislación aplicable", r"tribunales competentes"],
+    "Precios y suscripciones": [r"subscription", r"pricing", r"fees?", r"billing", r"renewal", r"suscripción", r"precio", r"tarifa", r"renovación"],
+    "Derechos del usuario": [r"your rights", r"right to object", r"right to access", r"opt.?out", r"consent", r"tus derechos", r"derecho.*oposición", r"consentimiento"]
 }
+
+HIGH_IMPACT = {"IA y entrenamiento", "Terceros y cesión de datos", "Arbitraje y acciones colectivas", "Propiedad y licencias de contenido", "Precios y suscripciones"}
+MEDIUM_IMPACT = {"Datos personales", "Transferencias internacionales", "Conservación y eliminación", "Publicidad y personalización", "Jurisdicción y ley aplicable", "Derechos del usuario"}
+
 
 def clean_html(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
-    for tag in soup(["script", "style", "nav", "footer", "header", "noscript", "svg"]):
+    for tag in soup(["script", "style", "nav", "footer", "header", "noscript", "svg", "form"]):
         tag.decompose()
-    
     text = soup.get_text(separator="\n")
-    # Normalizar saltos de línea y espacios
     lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines()]
-    clean_lines = [line for line in lines if line]
-    return "\n".join(clean_lines)
+    return "\n".join(line for line in lines if line)
 
-def analyze_impact(added_lines):
-    detected_impacts = []
-    combined_text = " ".join(added_lines).lower()
-    
+
+def analyze_impact(added_lines, removed_lines):
+    text = " ".join(added_lines + removed_lines).lower()
+    impacts = []
     for category, patterns in IMPACT_RULES.items():
-        for pattern in patterns:
-            if re.search(pattern, combined_text):
-                detected_impacts.append(category)
-                break
-    return detected_impacts
+        if any(re.search(pattern, text, re.IGNORECASE) for pattern in patterns):
+            impacts.append(category)
+    return impacts
+
+
+def classify_relevance(impacts, added_count, removed_count):
+    impact_set = set(impacts)
+    if impact_set & HIGH_IMPACT or len(impacts) >= 3:
+        return "Alta"
+    if impact_set & MEDIUM_IMPACT or (added_count + removed_count) >= 20:
+        return "Media"
+    return "Baja"
+
+
+def build_summary(impacts, added_count, removed_count):
+    total = added_count + removed_count
+    if impacts:
+        topics = ", ".join(impacts[:3])
+        suffix = " y otras áreas" if len(impacts) > 3 else ""
+        return f"Se detectaron {total} líneas modificadas con posibles cambios relacionados con {topics}{suffix}."
+    return f"Se detectaron {total} líneas modificadas. No coincidieron con las categorías sensibles configuradas."
+
 
 def main():
     os.makedirs(TRACKED_DIR, exist_ok=True)
     os.makedirs("docs", exist_ok=True)
-
     with open(TARGETS_FILE, "r", encoding="utf-8") as f:
         targets = json.load(f)
 
-    diff_log = []
-    if os.path.exists(DATA_FILE):
-        try:
-            with open(DATA_FILE, "r", encoding="utf-8") as f:
-                diff_log = json.load(f)
-        except Exception:
-            diff_log = []
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            diff_log = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        diff_log = []
 
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    }
-
-    current_date = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+    headers = {"User-Agent": "PolicyChangeObservatory/2.0 (+https://github.com/progeekts/cambios-en-terminos-y-condiciones)"}
+    now = datetime.now(timezone.utc)
+    current_date = now.strftime("%Y-%m-%d %H:%M:%S UTC")
+    status = {"last_check": current_date, "targets": len(targets), "ok": 0, "errors": [], "changes": 0}
 
     for target in targets:
         policy_id = target["id"]
         filepath = os.path.join(TRACKED_DIR, f"{policy_id}.txt")
-        
         try:
-            res = requests.get(target["url"], headers=headers, timeout=20)
-            if res.status_code != 200:
-                print(f"Error {res.status_code} fetching {target['url']}")
-                continue
-            
+            res = requests.get(target["url"], headers=headers, timeout=30, allow_redirects=True)
+            res.raise_for_status()
             new_text = clean_html(res.text)
-        except Exception as e:
-            print(f"Fallo al descargar {target['url']}: {e}")
+            if len(new_text) < 500:
+                raise ValueError("contenido extraído demasiado corto")
+            status["ok"] += 1
+        except Exception as exc:
+            status["errors"].append({"id": policy_id, "platform": target["platform"], "error": str(exc)[:180]})
             continue
 
-        if os.path.exists(filepath):
-            with open(filepath, "r", encoding="utf-8") as f:
-                old_text = f.read()
-
-            old_lines = old_text.splitlines(keepends=True)
-            new_lines = new_text.splitlines(keepends=True)
-
-            diff = list(difflib.unified_diff(old_lines, new_lines, lineterm=""))
-
-            if diff:
-                added_lines = [line[1:] for line in diff if line.startswith("+") and not line.startswith("+++")]
-                removed_lines = [line[1:] for line in diff if line.startswith("-") and not line.startswith("---")]
-
-                impacts = analyze_impact(added_lines)
-                severity = "Alta" if len(impacts) > 0 else "Baja"
-
-                diff_entry = {
-                    "id": policy_id,
-                    "platform": target["platform"],
-                    "type": target["type"],
-                    "url": target["url"],
-                    "date": current_date,
-                    "severity": severity,
-                    "impacts": impacts,
-                    "added_count": len(added_lines),
-                    "removed_count": len(removed_lines),
-                    "raw_diff": "".join(diff[:150]) # Limitar tamaño si es masivo
-                }
-                diff_log.insert(0, diff_entry)
-
-                with open(filepath, "w", encoding="utf-8") as f:
-                    f.write(new_text)
-        else:
-            # Primera inicialización
+        if not os.path.exists(filepath):
             with open(filepath, "w", encoding="utf-8") as f:
                 f.write(new_text)
+            continue
 
-    # Mantener el log en los últimos 200 cambios
+        with open(filepath, "r", encoding="utf-8") as f:
+            old_text = f.read()
+        old_lines = old_text.splitlines(keepends=True)
+        new_lines = new_text.splitlines(keepends=True)
+        diff = list(difflib.unified_diff(old_lines, new_lines, fromfile="versión anterior", tofile="versión nueva", lineterm=""))
+        if not diff:
+            continue
+
+        added_lines = [line[1:] for line in diff if line.startswith("+") and not line.startswith("+++")]
+        removed_lines = [line[1:] for line in diff if line.startswith("-") and not line.startswith("---")]
+        impacts = analyze_impact(added_lines, removed_lines)
+        relevance = classify_relevance(impacts, len(added_lines), len(removed_lines))
+        diff_log.insert(0, {
+            "id": policy_id,
+            "platform": target["platform"],
+            "type": target["type"],
+            "url": target["url"],
+            "date": current_date,
+            "severity": relevance,
+            "relevance": relevance,
+            "impacts": impacts,
+            "added_count": len(added_lines),
+            "removed_count": len(removed_lines),
+            "summary": build_summary(impacts, len(added_lines), len(removed_lines)),
+            "raw_diff": "".join(diff[:MAX_DIFF_LINES])
+        })
+        status["changes"] += 1
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(new_text)
+
     with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(diff_log[:200], f, indent=2, ensure_ascii=False)
+        json.dump(diff_log[:MAX_LOG], f, indent=2, ensure_ascii=False)
+    with open(STATUS_FILE, "w", encoding="utf-8") as f:
+        json.dump(status, f, indent=2, ensure_ascii=False)
+
 
 if __name__ == "__main__":
     main()
