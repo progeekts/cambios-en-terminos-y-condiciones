@@ -1,158 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Observatorio de Términos de Servicio y Privacidad</title>
-  <style>
-    :root {
-      --bg: #0d1117;
-      --card-bg: #161b22;
-      --border: #30363d;
-      --text: #c9d1d9;
-      --text-muted: #8b949e;
-      --green-bg: rgba(46, 160, 67, 0.15);
-      --green-text: #3fb950;
-      --red-bg: rgba(248, 81, 73, 0.15);
-      --red-text: #f85149;
-      --badge-high: #da3633;
-      --badge-low: #388bfd;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
-      background-color: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 2rem;
-    }
-    .container { max-width: 1100px; margin: auto; }
-    header { margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
-    h1 { margin: 0 0 0.5rem 0; font-size: 1.8rem; }
-    p.subtitle { color: var(--text-muted); margin: 0; }
-    .filters { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
-    select {
-      background: var(--card-bg);
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-    }
-    .diff-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-      overflow: hidden;
-    }
-    .card-header {
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255,255,255,0.02);
-      border-bottom: 1px solid var(--border);
-    }
-    .badge {
-      font-size: 0.75rem;
-      font-weight: bold;
-      padding: 0.25rem 0.6rem;
-      border-radius: 12px;
-      text-transform: uppercase;
-    }
-    .badge.alta { background-color: var(--badge-high); color: #fff; }
-    .badge.baja { background-color: var(--badge-low); color: #fff; }
-    .tags { margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .tag {
-      background: rgba(235, 126, 34, 0.15);
-      color: #f0883e;
-      border: 1px solid #f0883e;
-      font-size: 0.75rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-    }
-    .diff-viewer {
-      padding: 1rem;
-      font-family: monospace;
-      font-size: 0.85rem;
-      white-space: pre-wrap;
-      overflow-x: auto;
-      line-height: 1.4;
-    }
-    .diff-line-add { background-color: var(--green-bg); color: var(--green-text); display: block; }
-    .diff-line-del { background-color: var(--red-bg); color: var(--red-text); display: block; }
-    .diff-line-info { color: var(--text-muted); display: block; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>Observatorio de Políticas y Términos</h1>
-      <p class="subtitle">Monitoreo y clasificación de cambios contractuales orientados a IA y cesión de datos.</p>
-    </header>
-
-    <div class="filters">
-      <select id="severityFilter" onchange="renderCards()">
-        <option value="all">Todas las alertas</option>
-        <option value="Alta">Solo Alto Impacto</option>
-        <option value="Baja">Bajo Impacto</option>
-      </select>
-    </div>
-
-    <div id="feed">Cargando registros...</div>
-  </div>
-
-  <script>
-    let diffEntries = [];
-
-    async function loadData() {
-      try {
-        const response = await fetch('diffs.json');
-        diffEntries = await response.json();
-        renderCards();
-      } catch (err) {
-        document.getElementById('feed').innerHTML = '<p>No se encontraron registros de cambios recientes o aún no se ha ejecutado la primera comprobación.</p>';
-      }
-    }
-
-    function renderDiff(text) {
-      return text.split('\n').map(line => {
-        const escaped = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        if (line.startsWith('+') && !line.startsWith('+++')) return `<span class="diff-line-add">${escaped}</span>`;
-        if (line.startsWith('-') && !line.startsWith('---')) return `<span class="diff-line-del">${escaped}</span>`;
-        if (line.startsWith('@@')) return `<span class="diff-line-info">${escaped}</span>`;
-        return `<span>${escaped}</span>`;
-      }).join('');
-    }
-
-    function renderCards() {
-      const filter = document.getElementById('severityFilter').value;
-      const feed = document.getElementById('feed');
-      
-      const filtered = diffEntries.filter(e => filter === 'all' || e.severity === filter);
-
-      if (filtered.length === 0) {
-        feed.innerHTML = '<p>No hay cambios que coincidan con los criterios de búsqueda.</p>';
-        return;
-      }
-
-      feed.innerHTML = filtered.map(item => `
-        <div class="diff-card">
-          <div class="card-header">
-            <div>
-              <strong>${item.platform}</strong> — <a href="${item.url}" target="_blank" style="color:var(--text);">${item.type}</a>
-              <div style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Detectado: ${item.date}</div>
-              <div class="tags">
-                ${(item.impacts || []).map(imp => `<span class="tag">${imp}</span>`).join('')}
-              </div>
-            </div>
-            <span class="badge ${item.severity.toLowerCase()}">${item.severity}</span>
-          </div>
-          <div class="diff-viewer">${renderDiff(item.raw_diff)}</div>
-        </div>
-      `).join('');
-    }
-
-    loadData();
-  </script>
-</body>
-</html>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Observatorio independiente de cambios en términos de servicio y políticas de privacidad.">
+<title>Observatorio de Términos y Privacidad</title>
+<style>
+:root{--bg:#080b10;--panel:#10151d;--panel2:#151b24;--border:#27303d;--text:#f1f5f9;--muted:#94a3b8;--accent:#60a5fa;--green:#4ade80;--yellow:#fbbf24;--red:#fb7185;--add:#0c2b1b;--del:#321419}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}.wrap{width:min(1120px,calc(100% - 32px));margin:auto}header{padding:56px 0 28px;border-bottom:1px solid var(--border)}.eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:end}h1{font-size:clamp(32px,6vw,58px);line-height:1.02;letter-spacing:-.04em;margin:12px 0 16px;max-width:760px}.lead{color:var(--muted);font-size:17px;max-width:720px;margin:0}.health{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px}.health strong{display:block;font-size:28px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:7px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0}.stat{padding:18px;background:var(--panel);border:1px solid var(--border);border-radius:14px}.stat b{font-size:24px;display:block}.stat span{color:var(--muted);font-size:12px}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin:22px 0}.toolbar input,.toolbar select{width:100%;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:12px;font:inherit}.section-title{display:flex;justify-content:space-between;align-items:end;margin-top:30px}.section-title h2{margin:0;font-size:22px}.section-title small{color:var(--muted)}.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;margin:14px 0;overflow:hidden}.card-main{padding:20px}.topline{display:flex;gap:12px;justify-content:space-between;align-items:flex-start}.company{font-size:19px;font-weight:750}.meta{color:var(--muted);font-size:13px;margin-top:2px}.badge{font-size:11px;font-weight:800;text-transform:uppercase;padding:5px 9px;border-radius:999px;border:1px solid}.alta{color:var(--red);border-color:#7f1d2d;background:#2b1017}.media{color:var(--yellow);border-color:#713f12;background:#261a08}.baja{color:var(--accent);border-color:#1e3a5f;background:#0b1d31}.summary{font-size:16px;margin:17px 0 12px}.tags{display:flex;gap:6px;flex-wrap:wrap}.tag{font-size:12px;background:var(--panel2);border:1px solid var(--border);padding:4px 7px;border-radius:6px}.numbers{color:var(--muted);font-size:13px;margin-top:13px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.btn,button.btn{color:var(--text);background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 11px;text-decoration:none;font:inherit;cursor:pointer}.btn.primary{color:#08111f;background:var(--accent);border-color:var(--accent);font-weight:700}.diff{display:none;border-top:1px solid var(--border);padding:14px;background:#090d13;max-height:520px;overflow:auto;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap}.diff.open{display:block}.add{background:var(--add);color:#86efac;display:block}.del{background:var(--del);color:#fda4af;display:block}.info{color:#93c5fd;display:block}.empty{padding:42px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:14px}.about{margin:50px 0;padding:25px;border-top:1px solid var(--border);color:var(--muted)}.about h2{color:var(--text)}footer{border-top:1px solid var(--border);padding:24px 0 45px;color:var(--muted);font-size:13px}@media(max-width:720px){header{padding-top:35px}.hero{grid-template-columns:1fr;gap:20px}.stats{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}.topline{gap:8px}.wrap{width:min(100% - 22px,1120px)}}
+</style></head>
+<body><header><div class="wrap"><div class="hero"><div><div class="eyebrow">Observatorio independiente</div><h1>Cuando cambian las reglas, aquí queda registrado.</h1><p class="lead">Seguimos políticas de privacidad y términos de servicio, detectamos modificaciones y destacamos las áreas que podrían merecer tu atención.</p></div><div class="health"><span class="dot"></span><span id="healthLabel">Cargando estado…</span><strong id="lastCheck">—</strong><span class="meta">Última comprobación automática</span></div></div></div></header>
+<main class="wrap"><section class="stats"><div class="stat"><b id="targetCount">—</b><span>documentos vigilados</span></div><div class="stat"><b id="changeCount">—</b><span>cambios registrados</span></div><div class="stat"><b id="highCount">—</b><span>cambios de relevancia alta</span></div></section>
+<div class="section-title"><div><div class="eyebrow">Historial</div><h2>Cambios detectados</h2></div><small id="resultCount"></small></div>
+<section class="toolbar"><input id="search" type="search" placeholder="Buscar empresa, tema o cambio…" aria-label="Buscar"><select id="platform"><option value="all">Todas las empresas</option></select><select id="severity"><option value="all">Toda relevancia</option><option>Alta</option><option>Media</option><option>Baja</option></select></section><div id="feed" aria-live="polite">Cargando registros…</div>
+<section class="about"><h2>Cómo funciona</h2><p>El observatorio consulta periódicamente documentos públicos, extrae su contenido textual y lo compara con la versión almacenada anteriormente. Cuando encuentra diferencias, conserva un registro de líneas añadidas y eliminadas y busca señales relacionadas con privacidad, datos personales, terceros, inteligencia artificial, derechos del usuario, arbitraje, suscripciones y otras categorías.</p><p><strong>Importante:</strong> la relevancia es una clasificación automática orientativa, no una valoración jurídica ni una afirmación sobre las intenciones de una empresa. Para interpretar un cambio contractual, consulta siempre el documento oficial completo.</p></section></main>
+<footer><div class="wrap">Observatorio de Términos y Privacidad · Proyecto abierto y verificable en GitHub.</div></footer>
+<script>
+let entries=[];const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function diffHTML(text){return esc(text||'').split('\n').map(l=>{let c=l.startsWith('+')&&!l.startsWith('+++')?'add':l.startsWith('-')&&!l.startsWith('---')?'del':l.startsWith('@@')?'info':'';return `<span class="${c}">${l}</span>`}).join('')}
+function render(){let q=$('search').value.toLowerCase().trim(),p=$('platform').value,s=$('severity').value;let data=entries.filter(e=>(p==='all'||e.platform===p)&&(s==='all'||(e.relevance||e.severity)===s)&&(!q||[e.platform,e.type,e.summary,...(e.impacts||[])].join(' ').toLowerCase().includes(q)));$('resultCount').textContent=`${data.length} resultado${data.length===1?'':'s'}`;if(!data.length){$('feed').innerHTML='<div class="empty">No hay cambios que coincidan con estos filtros.</div>';return}$('feed').innerHTML=data.map((e,i)=>{let sev=e.relevance||e.severity||'Baja';let summary=e.summary||`Se detectaron ${(e.added_count||0)+(e.removed_count||0)} líneas modificadas.`;return `<article class="card"><div class="card-main"><div class="topline"><div><div class="company">${esc(e.platform)}</div><div class="meta">${esc(e.type)} · ${esc(e.date)}</div></div><span class="badge ${sev.toLowerCase()}">${esc(sev)}</span></div><p class="summary">${esc(summary)}</p><div class="tags">${(e.impacts||[]).map(x=>`<span class="tag">${esc(x)}</span>`).join('')||'<span class="tag">Sin categoría sensible detectada</span>'}</div><div class="numbers">+${e.added_count||0} añadidas · −${e.removed_count||0} eliminadas</div><div class="actions"><button class="btn" data-diff="d${i}">Ver cambios exactos</button><a class="btn primary" href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">Documento oficial ↗</a></div></div><div class="diff" id="d${i}">${diffHTML(e.raw_diff)}</div></article>`}).join('');document.querySelectorAll('[data-diff]').forEach(b=>b.addEventListener('click',()=>{let d=$(b.dataset.diff);d.classList.toggle('open');b.textContent=d.classList.contains('open')?'Ocultar cambios':'Ver cambios exactos'}))}
+async function init(){try{let [d,s]=await Promise.all([fetch('diffs.json',{cache:'no-store'}),fetch('status.json',{cache:'no-store'}).catch(()=>null)]);if(!d.ok)throw Error();entries=await d.json();let platforms=[...new Set(entries.map(e=>e.platform))].sort();platforms.forEach(x=>$('platform').insertAdjacentHTML('beforeend',`<option>${esc(x)}</option>`));$('changeCount').textContent=entries.length;$('highCount').textContent=entries.filter(e=>(e.relevance||e.severity)==='Alta').length;if(s&&s.ok){let st=await s.json();$('targetCount').textContent=st.targets??platforms.length;$('lastCheck').textContent=(st.last_check||'—').replace(' UTC',' UTC');$('healthLabel').textContent=st.errors?.length?`${st.ok}/${st.targets} fuentes comprobadas`:'Sistema operativo'}else{$('targetCount').textContent=platforms.length;$('healthLabel').textContent='Historial disponible'}render()}catch(e){$('feed').innerHTML='<div class="empty">No se ha podido cargar el historial en este momento.</div>';$('healthLabel').textContent='Estado no disponible'}}
+['search','platform','severity'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));init();
+</script></body></html>
