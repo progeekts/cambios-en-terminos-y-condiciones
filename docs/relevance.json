@@ -1,0 +1,5 @@
+[
+  {"level":"Alta","description":"Cambio que coincide con materias configuradas para revisión prioritaria o afecta a varias materias."},
+  {"level":"Media","description":"Cambio que coincide con materias relevantes o presenta un volumen significativo de modificaciones."},
+  {"level":"Baja","description":"Cambio detectado que no alcanza los criterios automáticos de prioridad anteriores."}
+]
