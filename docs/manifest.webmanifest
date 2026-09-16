@@ -1,0 +1,10 @@
+{
+  "name": "Observatorio de Cambios Legales",
+  "short_name": "Observatorio",
+  "description": "Historial independiente de cambios en documentos legales, privacidad, licencias, seguridad y cumplimiento.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080b10",
+  "theme_color": "#080b10",
+  "lang": "es"
+}
