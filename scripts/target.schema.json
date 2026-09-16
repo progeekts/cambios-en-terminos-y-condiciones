@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Observatory target",
+  "type": "object",
+  "required": ["id", "platform", "document_type", "url"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "platform": {"type": "string", "minLength": 1},
+    "document_type": {
+      "type": "string",
+      "enum": [
+        "Términos y condiciones",
+        "Términos de servicio",
+        "Política de privacidad",
+        "Condiciones de licenciamiento",
+        "Acuerdo de tratamiento de datos",
+        "Seguridad y cumplimiento",
+        "Otro documento legal"
+      ]
+    },
+    "url": {"type": "string", "format": "uri"},
+    "region": {"type": "string", "description": "Ámbito o región del documento, por ejemplo ES, UE o Global."},
+    "language": {"type": "string", "description": "Idioma principal esperado, por ejemplo es o en."},
+    "enabled": {"type": "boolean", "default": true},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": true
+}

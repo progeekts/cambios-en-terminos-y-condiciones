@@ -1,0 +1,15 @@
+{
+  "schema_version": 3,
+  "classifier_version": 3,
+  "id": "example-document",
+  "platform": "Empresa de ejemplo",
+  "document_type": "Política de privacidad",
+  "url": "https://example.com/privacy",
+  "date": "AAAA-MM-DD HH:MM:SS UTC",
+  "relevance": "Media",
+  "categories": ["Conservación y eliminación"],
+  "added_count": 2,
+  "removed_count": 1,
+  "summary": "Este documento ha cambiado en aspectos relacionados con durante cuánto tiempo se conserva la información y cuándo puede eliminarse. El resumen es automático; el texto exacto puede consultarse debajo.",
+  "raw_diff": "Ejemplo ilustrativo; no forma parte del historial real."
+}

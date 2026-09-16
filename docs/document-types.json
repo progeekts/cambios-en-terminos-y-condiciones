@@ -1,0 +1,9 @@
+[
+  {"name":"Términos y condiciones","description":"Condiciones generales que regulan una relación, producto o servicio."},
+  {"name":"Términos de servicio","description":"Reglas de uso y condiciones aplicables a un servicio."},
+  {"name":"Política de privacidad","description":"Información sobre recogida, uso, conservación y derechos relacionados con datos personales."},
+  {"name":"Condiciones de licenciamiento","description":"Permisos y restricciones de uso de software, contenido u otros activos licenciados."},
+  {"name":"Acuerdo de tratamiento de datos","description":"Condiciones sobre tratamiento de datos entre responsables, encargados u otras partes."},
+  {"name":"Seguridad y cumplimiento","description":"Documentación pública relativa a medidas de seguridad, certificaciones, controles o cumplimiento."},
+  {"name":"Otro documento legal","description":"Otra condición o documento legal configurado por el administrador."}
+]

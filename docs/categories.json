@@ -1,0 +1,16 @@
+[
+  {"name":"IA y entrenamiento","description":"Uso de información o contenido en sistemas de IA o entrenamiento de modelos."},
+  {"name":"Datos personales","description":"Recogida, uso o tratamiento de información personal."},
+  {"name":"Terceros y cesión de datos","description":"Compartición de información con proveedores, afiliadas u otros terceros."},
+  {"name":"Transferencias internacionales","description":"Movimiento o tratamiento de información entre países."},
+  {"name":"Conservación y eliminación","description":"Plazos de conservación y eliminación de información."},
+  {"name":"Publicidad y personalización","description":"Uso de información para anuncios o personalización."},
+  {"name":"Propiedad y licencias","description":"Derechos, licencias y propiedad intelectual sobre contenido."},
+  {"name":"Arbitraje y disputas","description":"Procedimientos para reclamaciones, disputas y arbitraje."},
+  {"name":"Jurisdicción y ley aplicable","description":"Leyes y tribunales aplicables."},
+  {"name":"Precios, pagos y suscripciones","description":"Cobros, tarifas, renovaciones y suscripciones."},
+  {"name":"Derechos y control del usuario","description":"Derechos, consentimiento y opciones de control de las personas usuarias."},
+  {"name":"Seguridad","description":"Medidas, incidentes y mecanismos de seguridad de la información."},
+  {"name":"Cumplimiento y auditoría","description":"Cumplimiento, certificaciones y auditorías."},
+  {"name":"Cuenta y acceso al servicio","description":"Creación, acceso, suspensión o terminación de cuentas y servicios."}
+]

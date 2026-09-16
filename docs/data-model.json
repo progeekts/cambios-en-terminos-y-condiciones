@@ -1,0 +1,17 @@
+{
+  "change_record": {
+    "schema_version": "number",
+    "classifier_version": "number",
+    "id": "source identifier",
+    "platform": "company or service",
+    "document_type": "configured document family",
+    "url": "official source URL",
+    "date": "UTC detection time",
+    "relevance": "Alta | Media | Baja",
+    "categories": "array of detected subjects",
+    "added_count": "number",
+    "removed_count": "number",
+    "summary": "plain-language automatic description",
+    "raw_diff": "verifiable textual difference"
+  }
+}

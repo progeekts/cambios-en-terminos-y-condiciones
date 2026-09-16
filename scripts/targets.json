@@ -1,50 +1,10 @@
 [
-  {
-    "id": "openai-privacy",
-    "platform": "OpenAI",
-    "type": "Política de privacidad",
-    "url": "https://openai.com/policies/privacy-policy/"
-  },
-  {
-    "id": "meta-terms",
-    "platform": "Meta",
-    "type": "Términos del servicio",
-    "url": "https://www.facebook.com/terms.php"
-  },
-  {
-    "id": "x-privacy",
-    "platform": "X",
-    "type": "Política de privacidad",
-    "url": "https://x.com/en/privacy"
-  },
-  {
-    "id": "anthropic-privacy",
-    "platform": "Anthropic",
-    "type": "Política de privacidad",
-    "url": "https://www.anthropic.com/legal/privacy"
-  },
-  {
-    "id": "google-privacy",
-    "platform": "Google",
-    "type": "Política de privacidad",
-    "url": "https://policies.google.com/privacy?hl=es"
-  },
-  {
-    "id": "google-terms",
-    "platform": "Google",
-    "type": "Términos del servicio",
-    "url": "https://policies.google.com/terms?hl=es"
-  },
-  {
-    "id": "apple-privacy",
-    "platform": "Apple",
-    "type": "Política de privacidad",
-    "url": "https://www.apple.com/es/legal/privacy/es/"
-  },
-  {
-    "id": "microsoft-privacy",
-    "platform": "Microsoft",
-    "type": "Declaración de privacidad",
-    "url": "https://www.microsoft.com/en-gb/privacy/privacystatement"
-  }
+  {"id":"openai-privacy","platform":"OpenAI","document_type":"Política de privacidad","url":"https://openai.com/policies/privacy-policy/"},
+  {"id":"meta-terms","platform":"Meta","document_type":"Términos de servicio","url":"https://www.facebook.com/terms.php"},
+  {"id":"x-privacy","platform":"X","document_type":"Política de privacidad","url":"https://x.com/en/privacy"},
+  {"id":"anthropic-privacy","platform":"Anthropic","document_type":"Política de privacidad","url":"https://www.anthropic.com/legal/privacy"},
+  {"id":"google-privacy","platform":"Google","document_type":"Política de privacidad","url":"https://policies.google.com/privacy?hl=es"},
+  {"id":"google-terms","platform":"Google","document_type":"Términos de servicio","url":"https://policies.google.com/terms?hl=es"},
+  {"id":"apple-privacy","platform":"Apple","document_type":"Política de privacidad","url":"https://www.apple.com/es/legal/privacy/es/"},
+  {"id":"microsoft-privacy","platform":"Microsoft","document_type":"Política de privacidad","url":"https://www.microsoft.com/en-gb/privacy/privacystatement"}
 ]
