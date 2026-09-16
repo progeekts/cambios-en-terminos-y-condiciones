@@ -2,6 +2,8 @@ import os
 import json
 import difflib
 import re
+import hashlib
+import time
 from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
@@ -12,8 +14,12 @@ STATUS_FILE = "docs/status.json"
 TARGETS_FILE = "scripts/targets.json"
 MAX_LOG = 300
 MAX_DIFF_LINES = 220
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 CLASSIFIER_VERSION = 3
+MIN_CONTENT_LENGTH = 500
+MAX_SIZE_RATIO = 4.0
+MIN_SIZE_RATIO = 0.35
+RETRIES = 3
 
 CATEGORY_RULES = {
     "IA y entrenamiento": [r"artificial intelligence", r"machine learning", r"training (our )?models", r"train.*models", r"inteligencia artificial", r"entrenamiento.*modelos"],
@@ -31,10 +37,8 @@ CATEGORY_RULES = {
     "Cumplimiento y auditoría": [r"compliance", r"audit", r"certification", r"iso 27001", r"soc 2", r"cumplimiento", r"auditoría", r"certificación"],
     "Cuenta y acceso al servicio": [r"account", r"suspend", r"terminate", r"access to (the )?service", r"cuenta", r"suspender", r"cancelar.*cuenta", r"acceso.*servicio"]
 }
-
 HIGH_IMPACT = {"IA y entrenamiento", "Terceros y cesión de datos", "Arbitraje y disputas", "Propiedad y licencias", "Precios, pagos y suscripciones", "Seguridad"}
 MEDIUM_IMPACT = {"Datos personales", "Transferencias internacionales", "Conservación y eliminación", "Publicidad y personalización", "Jurisdicción y ley aplicable", "Derechos y control del usuario", "Cumplimiento y auditoría", "Cuenta y acceso al servicio"}
-
 PLAIN_LANGUAGE = {
     "IA y entrenamiento": "cómo puede utilizarse información o contenido en sistemas de inteligencia artificial o entrenamiento de modelos",
     "Datos personales": "qué datos personales se recopilan o utilizan",
@@ -51,11 +55,17 @@ PLAIN_LANGUAGE = {
     "Cumplimiento y auditoría": "obligaciones de cumplimiento, auditorías o certificaciones",
     "Cuenta y acceso al servicio": "las reglas sobre cuentas, acceso, suspensión o finalización del servicio"
 }
+BLOCK_PATTERNS = [r"access denied", r"captcha", r"verify you are human", r"just a moment", r"cloudflare", r"enable javascript and cookies", r"unusual traffic", r"sign in to continue"]
 
 
-def clean_html(html_content):
+def clean_html(html_content, selector=None):
     soup = BeautifulSoup(html_content, "html.parser")
-    for tag in soup(["script", "style", "nav", "footer", "header", "noscript", "svg", "form"]):
+    if selector:
+        selected = soup.select_one(selector)
+        if selected is None:
+            raise ValueError(f"selector no encontrado: {selector}")
+        soup = selected
+    for tag in soup(["script", "style", "nav", "footer", "header", "noscript", "svg", "form", "aside"]):
         tag.decompose()
     text = soup.get_text(separator="\n")
     lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines()]
@@ -91,75 +101,117 @@ def build_plain_summary(categories, added_count, removed_count):
     return f"Este documento ha cambiado en aspectos relacionados con {subject}.{extra} El resumen es automático; el texto exacto puede consultarse debajo."
 
 
+def content_hash(text):
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def validate_response(response, text, old_text=None):
+    ctype = response.headers.get("content-type", "").lower()
+    if "text/html" not in ctype and "text/plain" not in ctype and "application/xhtml" not in ctype:
+        raise ValueError(f"tipo de contenido inesperado: {ctype or 'desconocido'}")
+    if len(text) < MIN_CONTENT_LENGTH:
+        raise ValueError("contenido extraído demasiado corto")
+    sample = text[:6000].lower()
+    for pattern in BLOCK_PATTERNS:
+        if re.search(pattern, sample, re.IGNORECASE):
+            raise ValueError(f"posible página de bloqueo detectada ({pattern})")
+    if old_text and len(old_text) >= MIN_CONTENT_LENGTH:
+        ratio = len(text) / len(old_text)
+        if ratio < MIN_SIZE_RATIO or ratio > MAX_SIZE_RATIO:
+            raise ValueError(f"cambio de tamaño sospechoso ({ratio:.2f}x); snapshot no actualizado")
+
+
+def fetch_document(session, target):
+    last_error = None
+    for attempt in range(RETRIES):
+        try:
+            response = session.get(target["url"], timeout=30, allow_redirects=True)
+            response.raise_for_status()
+            return response
+        except requests.RequestException as exc:
+            last_error = exc
+            if attempt < RETRIES - 1:
+                time.sleep(2 ** attempt)
+    raise last_error
+
+
 def main():
     os.makedirs(TRACKED_DIR, exist_ok=True)
     os.makedirs("docs", exist_ok=True)
     with open(TARGETS_FILE, "r", encoding="utf-8") as f:
-        targets = json.load(f)
+        targets = [t for t in json.load(f) if t.get("enabled", True)]
     try:
         with open(DATA_FILE, "r", encoding="utf-8") as f:
             diff_log = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         diff_log = []
 
-    headers = {"User-Agent": "PolicyChangeObservatory/3.0 (+https://github.com/progeekts/cambios-en-terminos-y-condiciones)"}
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (compatible; PolicyChangeObservatory/4.0; +https://github.com/progeekts/cambios-en-terminos-y-condiciones)",
+        "Accept": "text/html,application/xhtml+xml;q=0.9,text/plain;q=0.8,*/*;q=0.5",
+        "Accept-Language": "es-ES,es;q=0.8,en;q=0.6"
+    })
     now = datetime.now(timezone.utc)
     current_date = now.strftime("%Y-%m-%d %H:%M:%S UTC")
-    status = {"schema_version": SCHEMA_VERSION, "classifier_version": CLASSIFIER_VERSION, "last_check": current_date, "targets": len(targets), "ok": 0, "errors": [], "changes": 0}
+    status = {"schema_version": SCHEMA_VERSION, "classifier_version": CLASSIFIER_VERSION, "last_check": current_date, "targets": len(targets), "ok": 0, "errors": [], "changes": 0, "sources": []}
 
     for target in targets:
         policy_id = target["id"]
+        document_type = target.get("document_type", target.get("type", "Otro documento legal"))
         filepath = os.path.join(TRACKED_DIR, f"{policy_id}.txt")
+        source_status = {"id": policy_id, "platform": target["platform"], "document_type": document_type, "url": target["url"], "state": "error", "changed": False, "checked_at": current_date}
+        old_text = ""
+        if os.path.exists(filepath):
+            with open(filepath, "r", encoding="utf-8") as f:
+                old_text = f.read()
         try:
-            res = requests.get(target["url"], headers=headers, timeout=30, allow_redirects=True)
-            res.raise_for_status()
-            new_text = clean_html(res.text)
-            if len(new_text) < 500:
-                raise ValueError("contenido extraído demasiado corto")
+            res = fetch_document(session, target)
+            new_text = clean_html(res.text, target.get("selector"))
+            validate_response(res, new_text, old_text or None)
+            source_status.update({"state": "ok", "http_status": res.status_code, "final_url": res.url, "content_length": len(new_text), "content_hash": content_hash(new_text)})
             status["ok"] += 1
         except Exception as exc:
-            status["errors"].append({"id": policy_id, "platform": target["platform"], "document_type": target.get("document_type", target.get("type", "Otro documento legal")), "error": str(exc)[:180]})
+            message = str(exc)[:220]
+            source_status["error"] = message
+            status["errors"].append({"id": policy_id, "platform": target["platform"], "document_type": document_type, "error": message})
+            status["sources"].append(source_status)
             continue
 
-        if not os.path.exists(filepath):
+        if not old_text:
             with open(filepath, "w", encoding="utf-8") as f:
                 f.write(new_text)
+            source_status["state"] = "initialized"
+            status["sources"].append(source_status)
             continue
 
-        with open(filepath, "r", encoding="utf-8") as f:
-            old_text = f.read()
+        if content_hash(old_text) == source_status["content_hash"]:
+            status["sources"].append(source_status)
+            continue
+
         old_lines = old_text.splitlines(keepends=True)
         new_lines = new_text.splitlines(keepends=True)
         diff = list(difflib.unified_diff(old_lines, new_lines, fromfile="versión anterior", tofile="versión nueva", lineterm=""))
         if not diff:
+            status["sources"].append(source_status)
             continue
 
         added_lines = [line[1:] for line in diff if line.startswith("+") and not line.startswith("+++")]
         removed_lines = [line[1:] for line in diff if line.startswith("-") and not line.startswith("---")]
         categories = classify_categories(added_lines, removed_lines)
         relevance = classify_relevance(categories, len(added_lines), len(removed_lines))
-        document_type = target.get("document_type", target.get("type", "Otro documento legal"))
         diff_log.insert(0, {
-            "schema_version": SCHEMA_VERSION,
-            "classifier_version": CLASSIFIER_VERSION,
-            "id": policy_id,
-            "platform": target["platform"],
-            "type": document_type,
-            "document_type": document_type,
-            "url": target["url"],
-            "date": current_date,
-            "severity": relevance,
-            "relevance": relevance,
-            "categories": categories,
-            "impacts": categories,
-            "added_count": len(added_lines),
-            "removed_count": len(removed_lines),
-            "summary": build_plain_summary(categories, len(added_lines), len(removed_lines)),
-            "raw_diff": "".join(diff[:MAX_DIFF_LINES])
+            "schema_version": SCHEMA_VERSION, "classifier_version": CLASSIFIER_VERSION, "id": policy_id,
+            "platform": target["platform"], "type": document_type, "document_type": document_type, "url": target["url"],
+            "date": current_date, "severity": relevance, "relevance": relevance, "categories": categories, "impacts": categories,
+            "added_count": len(added_lines), "removed_count": len(removed_lines),
+            "summary": build_plain_summary(categories, len(added_lines), len(removed_lines)), "raw_diff": "".join(diff[:MAX_DIFF_LINES])
         })
         status["changes"] += 1
+        source_status.update({"changed": True, "relevance": relevance, "categories": categories, "added_count": len(added_lines), "removed_count": len(removed_lines)})
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(new_text)
+        status["sources"].append(source_status)
 
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(diff_log[:MAX_LOG], f, indent=2, ensure_ascii=False)
