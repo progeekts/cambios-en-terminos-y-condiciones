@@ -1,0 +1,13 @@
+{
+  "scope": [
+    "Términos y condiciones",
+    "Términos de servicio",
+    "Política de privacidad",
+    "Condiciones de licenciamiento",
+    "Acuerdo de tratamiento de datos",
+    "Seguridad y cumplimiento",
+    "Otro documento legal"
+  ],
+  "company_expansion": "deferred",
+  "current_phase": "classification-and-comprehension"
+}
