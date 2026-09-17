@@ -2,6 +2,8 @@
   "change_record": {
     "schema_version": "number",
     "classifier_version": "number",
+    "change_id": "stable identifier for the detected change",
+    "permalink": "stable fragment link to the public record",
     "id": "source identifier",
     "platform": "company or service",
     "document_type": "configured document family",
@@ -27,5 +29,10 @@
     "content_length": "number when available",
     "content_hash": "sha256 when available",
     "error": "diagnostic text when state is error"
+  },
+  "feeds": {
+    "rss": "docs/feed.xml",
+    "atom": "docs/atom.xml",
+    "source": "generated from the historical change records"
   }
 }
