@@ -1,17 +1,19 @@
 {
   "schema_version": 4,
   "classifier_version": 3,
-  "last_check": "2026-09-17 07:24:42 UTC",
+  "last_check": "2026-09-17 13:34:35 UTC",
   "targets": 8,
-  "ok": 7,
-  "errors": [
-    {
-      "id": "meta-terms",
-      "platform": "Meta",
-      "document_type": "Términos de servicio",
-      "error": "contenido extraído demasiado corto"
-    }
-  ],
-  "changes": 0,
-  "sources": []
+  "ok": 8,
+  "errors": [],
+  "changes": 1,
+  "sources": [
+    {"id":"openai-privacy","platform":"OpenAI","document_type":"Política de privacidad","url":"https://openai.com/policies/privacy-policy/","state":"ok","changed":false,"checked_at":"2026-09-17 13:34:35 UTC","http_status":200,"final_url":"https://openai.com/policies/privacy-policy/","content_length":28643,"content_hash":"04f6dbd8f4e24414ce2246534692266f285c398d397d113ec8e177f2a894776f"},
+    {"id":"meta-terms","platform":"Meta","document_type":"Términos de servicio","url":"https://www.facebook.com/terms.php","state":"initialized","changed":false,"checked_at":"2026-09-17 13:34:35 UTC","http_status":200,"final_url":"https://www.facebook.com/terms.php","content_length":38802,"content_hash":"8e7938f09d7aef72e92cf792a1d56160db11a292d68c3236d6af8e89aae7f96f"},
+    {"id":"x-privacy","platform":"X","document_type":"Política de privacidad","url":"https://x.com/en/privacy","state":"ok","changed":false,"checked_at":"2026-09-17 13:34:35 UTC","http_status":200,"final_url":"https://x.com/en/privacy","content_length":33444,"content_hash":"dd72cc799d176a149224eb7bff08ffeb753e8c9d665de774b46698b8019d4a17"},
+    {"id":"anthropic-privacy","platform":"Anthropic","document_type":"Política de privacidad","url":"https://www.anthropic.com/legal/privacy","state":"ok","changed":false,"checked_at":"2026-09-17 13:34:35 UTC","http_status":200,"final_url":"https://www.anthropic.com/legal/privacy","content_length":40091,"content_hash":"87d3896405eb8294184d4d2ffb8932f6a9274ee4c4630075a84be999830d4bbb"},
+    {"id":"google-privacy","platform":"Google","document_type":"Política de privacidad","url":"https://policies.google.com/privacy?hl=es","state":"ok","changed":false,"checked_at":"2026-09-17 13:34:35 UTC","http_status":200,"final_url":"https://policies.google.com/privacy?hl=es","content_length":79518,"content_hash":"74de9be48526d24f61fcecdbc9e68b08251e4d94e82a7958de590784d2dea206"},
+    {"id":"google-terms","platform":"Google","document_type":"Términos de servicio","url":"https://policies.google.com/terms?hl=es","state":"ok","changed":false,"checked_at":"2026-09-17 13:34:35 UTC","http_status":200,"final_url":"https://policies.google.com/terms?hl=es","content_length":35093,"content_hash":"3dbe889796f7f86691d70d74a085a4a04bf8ae0a73b038c00181ab9be466665a"},
+    {"id":"apple-privacy","platform":"Apple","document_type":"Política de privacidad","url":"https://www.apple.com/es/legal/privacy/es/","state":"ok","changed":false,"checked_at":"2026-09-17 13:34:35 UTC","http_status":200,"final_url":"https://www.apple.com/es/legal/privacy/es/","content_length":32121,"content_hash":"15b31bedb6bfdfc0dffea5dac42e46292ec644f9769a81cf1d57c3c108e76a84"},
+    {"id":"microsoft-privacy","platform":"Microsoft","document_type":"Política de privacidad","url":"https://www.microsoft.com/en-gb/privacy/privacystatement","state":"ok","changed":true,"checked_at":"2026-09-17 13:34:35 UTC","http_status":200,"final_url":"https://www.microsoft.com/en-gb/privacy/privacystatement","content_length":212653,"content_hash":"d8bc18eeeb236e8a8e8a580dbb492d20a38270e008b56cdc2325698d998299a4","relevance":"Baja","categories":[],"added_count":1,"removed_count":1}
+  ]
 }
