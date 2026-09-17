@@ -1,0 +1,229 @@
+Información jurídica - Política de privacidad - Apple
+Español
+Seleccione su idioma favorito
+Política de Privacidad de Apple
+Actualizado el 30 de julio de 2025
+La política de privacidad de Apple describe el modo en que Apple recoge, usa y comparte tus datos personales.
+Además de esta Política de Privacidad, proporcionamos información sobre datos y privacidad en nuestros productos y en determinadas prestaciones que solicitan usar tu información personal. Esta información específica del producto está acompañada del icono Datos y privacidad.
+Tendrás la oportunidad de revisar esta información específica del producto antes de usar estas prestaciones. También puedes revisar esta información en cualquier momento, ya sea en los ajustes relacionados con dichas prestaciones o en línea en
+apple.com/es/legal/privacy/data
+.
+Puedes familiarizarte con las prácticas de privacidad, a las que puedes acceder mediante los títulos que aparecen abajo. Si tienes alguna pregunta,
+ponte en contacto con nosotros
+.
+Descarga una copia de esta política de privacidad
+Política de privacidad de apps utilizadas en estudios de investigación sanitaria de Apple
+¿Qué son los datos personales en Apple?
+En Apple, creemos firmemente en los derechos fundamentales en materia de privacidad. Estos derechos no deben variar según el lugar del mundo donde se resida.
+Es por eso por lo que tratamos todos los datos relacionados con una persona identificada o identificable, o que Apple le haya vinculado o pueda vincular, como «datos personales», sin importar el lugar de residencia de la persona.
+Esto quiere decir que son datos personales los que lo identifican directamente, como su nombre, así como los que no lo identifican directamente pero que pueden utilizarse de manera razonable para identificarlo, como el número de serie de su dispositivo. Los datos agregados se consideran información no personal a efectos de esta Política de privacidad.
+Esta Política de privacidad cubre cómo
+Apple o una empresa afiliada a Apple
+(en conjunto, «Apple») gestiona los datos personales tanto si interactúa con nosotros en nuestros sitios web, a través de apps de Apple (como Apple Music o Cartera) como en persona (incluso por teléfono o cuando visita un Apple Store). Apple también podrá vincular a terceros en nuestros servicios o permitir la descarga de apps de terceros en el App Store. La Política de privacidad de Apple no es aplicable a la definición o la utilización de datos personales por parte de terceros. Le animamos a leer sus políticas de privacidad e informarse de sus derechos de privacidad antes de interactuar con ellos.
+Tus derechos de privacidad en Apple
+En Apple, respetamos sus derechos de conocimiento, acceso, rectificación, transferencia, limitación del tratamiento y supresión de sus datos personales. Hemos proporcionado estos derechos a nuestra base global de clientes y, si opta por ejercer estos derechos de privacidad, tendrá derecho a no recibir ningún tipo de trato discriminatorio o un grado de servicio inferior por parte de Apple. Tiene derecho a retirar en cualquier momento el consentimiento para que Apple procese sus datos personales.
+Para ejercer sus derechos y opciones de privacidad, incluso cuando un proveedor de servicios externo actúe en nombre de Apple, visite la página de privacidad y datos de Apple en
+privacy.apple.com
+para Apple o
+shazam.com/es-es/privacy
+para Shazam.
+Para ayudar a proteger la seguridad de sus datos personales, debe iniciar sesión en su cuenta y verificar su identidad. Si quiere obtener una copia de los datos personales que no están disponibles actualmente en
+privacy.apple.com
+, puede hacer una solicitud en
+apple.com/es/privacy/contact
+. También tiene derecho a presentar una queja ante el regulador aplicable.
+Es posible que, en determinadas situaciones, no podamos satisfacer su solicitud. Por ejemplo, si nos pide eliminar los datos de sus transacciones y Apple tiene la obligación legal de mantener un registro de transacciones conforme a derecho. También podremos rechazar una solicitud siempre que hacerlo socave nuestro uso legítimo de los datos para fines de lucha contra el fraude y seguridad, por ejemplo, si nos pide eliminar una cuenta en investigación por cuestiones de seguridad. Otros motivos por los que puede rechazarse una solicitud en materia de privacidad es que ponga en riesgo la privacidad de otros terceros, que resulte frívola o irritante o que sea muy poco práctica o irrazonable.
+Si reside en California y no puede acceder a la página Datos y privacidad de Apple,
+usted o su agente autorizado pueden realizar una solicitud en
+apple.com/es/privacy/contact
+o llamando al 1-800-275-2273.
+Para obtener más información sobre el ejercicio de sus derechos, consulte
+support.apple.com/102283
+.
+Datos personales sobre usted recopilados por Apple
+En Apple, creemos que puede disfrutar de grandes productos y una gran privacidad. Es decir, aspiramos a
+recopilar únicamente los datos personales que necesitamos
+. Los datos personales recopilados por Apple dependen del modo en que interactúe con Apple. Las descripciones de cómo gestiona Apple los datos personales de determinados servicios individuales están disponibles en
+apple.com/es/legal/privacy/data
+.
+Cuando crea un cuenta de Apple, solicita un crédito comercial, compra o activa un producto o dispositivo, descarga una actualización de software, se registra para una clase en un Apple Store, se conecta a nuestros servicios, se pone en contacto con nosotros (como a través de redes sociales), participa en una encuesta en línea o interactúa de otra manera con Apple, podremos recoger distintos tipos de información, como los siguientes:
+Información de la cuenta.
+Su cuenta de Apple y detalles relacionados de la cuenta, como la dirección de correo electrónico, los dispositivos registrados, el estado de la cuenta y la edad.
+Información del dispositivo.
+Datos a partir de los cuales es posible identificar el dispositivo, como el número de serie, o acerca de su dispositivo, como el tipo de navegador.
+Información de contacto
+. Datos como el nombre, la dirección de correo electrónico, la dirección física, el número de teléfono u otra información de contacto.
+Información de pago. Datos sobre su dirección de facturación y el método de pago, como datos bancarios, de tarjetas de crédito o débito o de otras tarjetas de pago.
+Información de transacciones.
+Datos sobre las compras de productos y servicios de Apple o transacciones facilitadas por Apple, como las compras en plataformas de Apple.
+Información para prevenir el fraude.
+Datos utilizados para ayudar a identificar y prevenir el fraude, como una puntuación de confianza del dispositivo.
+Datos de uso.
+Datos sobre su actividad y el uso de nuestras ofertas, como la apertura de apps en el marco de nuestros servicios, incluidos el historial de navegación, el historial de búsquedas, la interacción con productos, datos sobre errores, datos sobre el rendimiento y diagnósticos de otro tipo, y otros datos de uso.
+Información de ubicación
+. Ubicación precisa solo para permitir el uso de servicios como Buscar (o donde acepte servicios específicos de una región) y ubicación aproximada.
+Información de salud.
+Datos relacionados con el estado de salud de una persona, incluidos datos relacionados con su salud o estado físico o mental. Los datos de salud personales también incluyen datos que pueden utilizarse para hacer deducciones o detectar el estado de salud de una persona. Si participa en un estudio con una app utilizada en estudios de investigación sanitaria de Apple, la política que rige la privacidad de los datos personales se describe en la
+Política de privacidad de apps utilizadas en estudios de investigación sanitaria de Apple
+.
+Información sobre la condición física.
+Información detallada sobre su forma física y el ejercicio que realiza, en caso de que decida compartirla.
+Información financiera.
+Información detallada sobre su salario, ingresos y activos, cuando se recoja, e información relacionada con las ofertas financieras de Apple.
+Datos de un documento de identidad emitido por el Gobierno.
+En determinadas jurisdicciones, le podremos pedir un documento de identidad emitido por el Gobierno en circunstancias muy concretas, como cuando configura una cuenta de conexión inalámbrica y activa su dispositivo, para ampliar un crédito comercial, para gestionar reservas o según lo exigido por la ley.
+Otra información que nos proporciona.
+Información detallada como el contenido de tus comunicaciones con Apple, incluidas las interacciones con nuestro servicio de soporte técnico y los contactos realizados a través de redes sociales.
+No tiene la obligación de facilitar los datos personales que hemos solicitado. No obstante, si decide no hacerlo, en muchos casos, no podremos ofrecerle nuestros productos o servicios ni responder a las solicitudes que pueda realizar.
+Datos personales que Apple obtiene de otras fuentes
+Apple podrá recibir datos personales acerca de usted de otras
+personas
+, negocios o terceros que actúen
+siguiendo sus instrucciones
+, nuestros
+socios
+que trabajan con nosotros para ofrecer nuestros productos y servicios, y asistirnos en materia de seguridad y prevención de fraude, y otras
+fuentes legítimas.
+Personas.
+Apple podrá recopilar datos personales acerca de usted a partir de otras personas; por ejemplo, si dicha persona le ha enviado un producto o una tarjeta regalo, le ha invitado a participar en un servicio o foro de Apple o ha compartido contenido con usted.
+Siguiendo sus instrucciones.
+Podrá indicar a otras personas o terceros que compartan datos con Apple. Por ejemplo, puede indicar a su operador móvil que comparta datos sobre su cuenta con el operador con Apple para desactivar la cuenta, o que su programa de fidelidad comparta información acerca de su participación para poder obtener recompensas para compras de Apple.
+Socios de Apple.
+También podremos validar la información que nos proporcione, por ejemplo, al crear un cuenta de Apple con un tercero por razones de seguridad y con fines de prevención del fraude.
+Para potenciar funciones como la búsqueda y como fuente para nuestros modelos fundamentales de IA, Apple utiliza Applebot, un rastreador web, para rastrear la información disponible públicamente en Internet. Disponemos de medidas para reducir la cantidad de datos personales que recopilamos y no intentamos relacionar los datos rastreados con ningún usuario de Apple, ni crear perfiles de personas. Sus datos personales privados no se utilizan para entrenar nuestros modelos fundacionales de IA. Para ejercer su derecho como particular a excluirte del tratamiento, visite el
+formulario de consultas sobre privacidad de Apple Intelligence
+. Para obtener más información sobre el Applebot,
+visite support.apple.com/120320
+.
+Si la finalidad es la investigación y el desarrollo, podremos usar conjuntos de datos como los que contengan imágenes, voces u otros datos que pudieran relacionarse con una persona identificable. Al obtener estos conjuntos de datos, seguimos la legislación aplicable, incluida la de la jurisdicción en la que se encuentran dichos conjuntos de datos. Al usar estos conjuntos de datos con fines de investigación y desarrollo, no intentamos volver a identificar a las personas que aparecen en ellos.
+Uso de datos personales por parte de Apple
+Apple utiliza datos personales para impulsar nuestros servicios, tramitar sus transacciones, comunicarse con usted, con fines de seguridad y de prevención del fraude, y para cumplir la ley. También podremos usar datos personales para otros fines con su consentimiento.
+Apple solo usa sus datos personales cuando existe un fundamento jurídico válido para hacerlo.
+Según las circunstancias, Apple podrá utilizar su consentimiento o el hecho de que el tratamiento es necesario para satisfacer un contrato con usted, para proteger sus intereses vitales o los de otras personas o para cumplir la ley. También podremos tratar sus datos personales cuando creamos que actuamos en nuestro interés legítimo o en el de otros terceros, tomando en consideración sus intereses, derechos y expectativas. Encontrará más información en nuestros productos y prestaciones, como se indica anteriormente. Si tiene preguntas sobre la base jurídica, puede contactar con el responsable de protección de datos en
+apple.com/es/privacy/contact
+.
+Impulsar nuestros servicios.
+Apple recopila datos personales necesarios para impulsar nuestros servicios. Esto puede incluir datos personales recopilados para mejorar nuestras ofertas, para fines internos, como auditorías o análisis de datos, o para solucionar problemas. Por ejemplo, si desea acceder a una canción a través de una suscripción de Apple Music, recopilamos datos de las canciones que reproduce para poder ofrecer el contenido solicitado y poder satisfacer el derecho de canon establecido.
+Tramitar sus transacciones.
+Para tramitar transacciones, Apple debe recopilar datos como su nombre, compras e información de pago.
+Comunicarnos con usted.
+Para responder a comunicaciones, ponernos en contacto con usted acerca de transacciones o la cuenta, comercializar nuestros productos y servicios, ofrecer otra información relevante o solicitar información o comentarios. Ocasionalmente, podremos utilizar sus datos personales para enviarle avisos importantes, como comunicaciones acerca de compras y modificaciones de nuestros términos, condiciones y políticas. No puede optar por no recibir estos avisos importantes, puesto que contienen información importante para su relación con Apple.
+Seguridad y prevención del fraude.
+Parar proteger a las personas, empleados y Apple, y para evitar pérdidas y prevenir el fraude, incluida la protección de personas, empleados y Apple para beneficio de todos nuestros usuarios, y para realizar un cribado previo o escaneo del contenido subido con el fin de detectar contenido posiblemente ilegal, como material de explotación sexual infantil.
+Datos personales usados con fines de personalización.
+Si decide personalizar sus servicios o comunicaciones, en caso de que dichas opciones estén disponibles, Apple usará la información recopilada para poder ofrecérselos. Puede obtener más información acerca del modo en que los servicios pertinentes utilizan información para personalizar su experiencia en la información sobre privacidad que se presenta cuando utiliza por primera vez un servicio que solicita el uso de sus datos personales. Encontrará esta información a través del icono Datos y Privacidad. También puede acceder a ella en cualquier momento desde el dispositivo Apple y en línea en
+http://apple.com/es/legal/privacy/data
+.
+Cumplir la ley.
+Para cumplir la legislación aplicable; por ejemplo, para satisfacer obligaciones tributarias o de notificación o para cumplir con una solicitud legítima por parte del Gobierno.
+Apple no utiliza algoritmos ni elabora perfiles para tomar ninguna decisión que pueda afectarle de manera sustancial sin dar la oportunidad de revisión por parte de una persona. Apple tampoco utiliza ni divulga datos personales sensibles para ningún fin que requiera que el usuario ejerza su derecho a limitar el tratamiento según la legislación de California.
+Apple conserva datos personales solo durante el periodo de tiempo necesario para satisfacer los fines de su recopilación, que se describen en esta Política de privacidad o en los avisos de privacidad específicos de nuestros servicios, o de la manera exigida por la ley. Sus datos personales se conservarán durante el periodo de tiempo necesario para cumplir los fines descritos en la presente Política de privacidad y en los avisos de privacidad específicos de nuestros servicios. Cuando se evalúen los periodos de conservación, en primer lugar, examinaremos la necesidad de conservar los datos recopilados y, si hace falta conservarlos, trabajaremos para que sea durante la menor cantidad de tiempo posible con arreglo a la ley.
+Intercambio de datos personales por parte de Apple
+Apple podrá compartir datos personales con
+empresas afiliadas a Apple
+,
+proveedores de servicios
+que actúen en nuestro nombre, nuestros
+socios
+,
+desarrolladores y editores
+, u otros terceros
+que estén siguiendo sus instrucciones
+. Asimismo, Apple no comparte datos personales con terceros para sus propios fines de marketing.
+Proveedores de servicios.
+Apple puede contratar a terceros para que actúen como proveedores de servicios y realicen determinadas tareas en nuestro nombre, como el tratamiento o el almacenamiento de datos, incluidos los datos personales, en relación con el uso de nuestros servicios y la entrega de productos a los clientes. Los proveedores de servicios de Apple tienen la obligación de gestionar los datos personales de manera coherente con esta Política de privacidad y de conformidad con nuestras instrucciones. No pueden utilizar los datos personales que compartimos para sus propios fines y deben eliminar o devolver los datos personales cuando hayan satisfecho nuestra solicitud.
+Socios.
+En ocasiones, Apple podrá colaborar con terceros para prestar servicios u otras ofertas. Por ejemplo, las ofertas financieras de Apple, como Apple Card o Apple Cash, las ofrecen Apple y nuestros socios. Apple exige a sus socios la protección de sus datos personales.
+Desarrolladores y editores de los que consigue una suscripción.
+Si compra una suscripción de terceros en el App Store o en Apple News, creamos un ID de suscriptor exclusivo para usted y el desarrollador o editor. El ID de suscriptor podrá usarse para facilitar informes al desarrollador o el editor. Esto incluye información acerca de la suscripción que ha comprado y su país de residencia. Si cancela todas sus suscripciones de un desarrollador o editor en particular, el ID de suscriptor se restablecerá al cabo de 180 días si no se vuelve a suscribir. Esta información se proporciona a los desarrolladores o editores para que puedan entender el rendimiento de sus suscripciones.
+Otros terceros.
+Apple podrá compartir datos personales con otros terceros siguiendo sus instrucciones o con su consentimiento, por ejemplo, si compartimos información con su operador para activar su cuenta. Asimismo, podremos comunicar información sobre su persona si consideramos que dicha comunicación es necesaria o conveniente por razones de seguridad nacional, para cumplir la legislación vigente o por otros motivos importantes de orden público. También podremos comunicar información acerca de usted cuando exista un fundamento jurídico para hacerlo, si determinamos que dicha comunicación es razonablemente necesaria para aplicar nuestros términos y condiciones o para proteger nuestras operaciones o usuarios, o en el caso de una reorganización, fusión o venta.
+Apple no vende sus datos personales; esto incluye la definición de venta que se hace en Nevada y California. Apple tampoco «comparte» sus datos personales, tal y como se define en California.
+Protección de los datos personales en Apple
+En Apple, creemos que una gran privacidad depende de una gran seguridad. Tomamos
+medidas de protección administrativas, técnicas y físicas
+para proteger sus datos personales y tenemos en cuenta la naturaleza de los datos personales y el tratamiento, así como las amenazas planteadas. Trabajamos constantemente para mejorar estas medidas de protección con el fin de salvaguardar sus datos personales. Obtenga más información en nuestra guía
+Seguridad de las plataformas de Apple
+.
+Menores y datos personales
+En Apple, comprendemos la importancia de proteger los datos personales de la infancia, la cual definimos como
+toda persona menor de 13 años o de edad equivalente, según lo especificado en su jurisdicción
+. Por este motivo, Apple ha implementado procesos y medidas de protección adicionales para ayudar a mantener seguros los datos personales de la infancia.
+Para acceder a determinados servicios de Apple, el menor debe contar con un cuenta de Apple infantil. Un cuenta de Apple infantil la puede crear su
+padre o madre
+o, en el caso de un cuenta de Apple gestionada, el
+centro educativo
+.
+Familias.
+Para crear una cuenta infantil, las familias deben revisar la
+Declaración de privacidad familiar para niños
+, en la que se describe cómo gestiona Apple los datos personales de la infancia. Si aceptan, el padre o la madre deberá facilitar a Apple un consentimiento parental verificable.
+Centros educativos.
+Los centros educativos que participan en el programa Apple School Manager también deberán crear cuentas de Apple para estudiantes, denominadas «cuentas de Apple gestionadas». Estos centros están obligados a aceptar la
+divulgación de las cuentas de Apple gestionadas para estudiantes
+, que se incluye en el Anexo A del Acuerdo de Apple School Manager.
+Si descubrimos que los datos personales de un menor se recopilaron sin la autorización adecuada, se eliminarán con la mayor celeridad.
+Para ejercer los derechos de privacidad para la información del niño, visite la página Privacidad y datos de Apple en
+privacy.apple.com
+e inicie sesión en su cuenta.
+Cookies y otras tecnologías
+Los sitios web, los servicios en línea, las aplicaciones interactivas y los anuncios publicitarios de Apple podrán emplear
+«cookies» y otras tecnologías
+, como balizas web.
+Estas tecnologías nos ayudan a entender mejor la conducta de los usuarios —por ejemplo, para fines de seguridad y prevención del fraude—, nos indican qué partes de nuestras páginas web han visitado y facilitan y miden la eficacia de los anuncios publicitarios y las búsquedas en internet.
+Cookies de comunicaciones.
+Estas cookies se utilizan para habilitar el tráfico de red hasta y desde sistemas de Apple, por ejemplo, al ayudarnos a detectar cualquier error.
+Cookies estrictamente necesarias.
+Estas cookies se determinan como necesarias para proporcionar una prestación o servicio concreto al que ha accedido o ha solicitado.
+Por ejemplo, nos permiten mostrar nuestros sitios web en el formato y el idioma correspondientes, autenticar y verificar sus transacciones y conservar el contenido de su bolsa de la compra cuando adquiere un producto por internet en apple.com/es
+.
+Otras cookies.
+Estas cookies se utilizan para entender el modo en que los visitantes interactúan con nuestros sitios web y servicios en línea, por ejemplo, al ayudarnos a evaluar la eficacia de anuncios y búsquedas web. Apple también utiliza estas cookies para recordar las elecciones que ha realizado mientras navegaba, de modo que podamos ofrecerle una experiencia personalizada.
+Si prefiere que Apple no utilice cookies, le proporcionamos los medios para desactivar su uso. Si quiere desactivar las cookies y utiliza el navegador web Safari, elija Bloquear Cookies en los ajustes de privacidad de Safari. Si utiliza un navegador diferente, hable con su proveedor para averiguar el modo de desactivar las cookies. Es posible que determinadas prestaciones del sitio web de Apple no estén disponibles si todas las cookies están desactivadas.
+Además de las cookies, Apple usa otras tecnologías que nos ayudan a conseguir objetivos similares.
+En algunos de los mensajes que Apple le envía por correo electrónico, se proporciona una «URL de pulsación pasante» que le dirige al contenido en el sitio web de Apple. Cuando se hace clic en estas URL, pasan por un servidor independiente antes de llegar a la página de destino en nuestro sitio web. Realizamos un seguimiento de esa pulsación pasante para ayudarnos a determinar el interés en determinados temas y medir la eficacia de nuestras comunicaciones con usted. Si prefiere que no se le rastree de esta manera, no debe hacer clic en los enlaces gráficos o de texto en los mensajes enviados por correo electrónico.
+Por lo general, Apple trata los datos que recopilamos usando estas cookies y tecnologías similares como datos no personales.
+No obstante, en la medida en que la legislación local considere las direcciones IP y demás identificadores similares como datos personales, también trataremos estos identificadores como datos personales en dichas regiones. Además, en ocasiones, Apple combina datos no personales recopilados por medio de estas tecnologías con otros datos personales que mantiene. Cuando combinamos los datos de esta manera, tratamos los datos combinados como datos personales para los fines de esta Política de privacidad.
+Los anuncios suministrados mediante la plataforma de publicidad de Apple pueden aparecer en el App Store, Apple News, Bolsa y Apple TV dependiendo de su ubicación. La plataforma de publicidad de Apple no lo rastrea, lo que significa que no vincula los datos de usuarios o dispositivos recopilados de nuestras apps con los datos de usuarios o dispositivos recopilados de terceros para fines publicitarios o de medición publicitaria dirigidos, y no comparte los datos de usuarios o dispositivos con las empresas de análisis de datos.
+Si no desea recibir anuncios dirigidos sobre sus intereses de la plataforma publicitaria de Apple en esas apps, puede desactivar la opción de anuncios personalizados; así, su cuenta de Apple dejará de recibir este tipo de anuncios, independientemente del tipo de dispositivo que esté usando. En el dispositivo iOS, iPadOS o visionOS, para desactivar los anuncios personalizados vaya a Ajustes > Privacidad y Seguridad > Publicidad de Apple y toque para desactivar Anuncios Personalizados. En su Mac, para desactivar los anuncios personalizados, debe ir a Ajustes del Sistema > Privacidad y Seguridad > Privacidad > Publicidad y desactivar la opción Anuncios Personalizados. Es posible que siga viendo anuncios en el App Store, Apple News o Bolsa, según el contexto, como las consultas que realice o el canal que lea. Si desactiva Permitir que las Apps Soliciten Rastrearte, las apps de terceros no pueden solicitar usar el identificador de publicidad (un identificador no personal ofrecido por el sistema operativo del dispositivo) para rastrearlo por todas las apps y sitios web propiedad de otras empresas.
+Obtenga más información sobre la publicidad y la privacidad ofrecida por Apple en
+https://www.apple.com/legal/privacy/data/es/apple-advertising/
+.
+Transferencia de datos personales entre países
+Los productos y ofertas de Apple le conectan con el mundo. Para hacer que esto sea posible,
+sus datos personales pueden transferirse a entidades de todo el mundo,
+incluidas las empresas afiliadas a Apple, para realizar actividades de procesamiento como las descritas en esta Política de privacidad y que guardan relación con el uso que hace de nuestros productos y servicios. Apple cumple la legislación sobre la transferencia de datos personales entre países para ayudar a garantizar la protección de sus datos en cualquier lugar.
+La entidad de Apple responsable del tratamiento de sus datos personales puede variar en función del lugar donde resida.
+Por ejemplo, las entidades comerciales individuales de cada país controlan la información del Apple Store y como se indica en las Condiciones de Servicio, varias entidades de Apple pueden controlar los datos personales relacionados con los servicios multimedia de Apple. Si no reside en EE. UU., sus datos personales podrán ser tratados por Apple Inc. y otras de sus empresas afiliadas en nombre de la entidad de Apple responsable del tratamiento de sus datos personales en su jurisdicción. Por ejemplo, las imágenes y datos asociados recopilados por Apple alrededor del mundo para mejorar Mapas de Apple y para el uso de nuestra prestación Vista Panorámica se transfieren a Apple Inc. en California.
+Apple Distribution International Limited en Irlanda es responsable del tratamiento de los datos personales relacionados con personas del Espacio Económico Europeo, el Reino Unido y Suiza. La transferencia internacional realizada por Apple de datos personales recopilados en el Espacio Económico Europeo, el Reino Unido y Suiza se rigen por las
+Cláusulas contractuales estándar
+. Si tiene alguna pregunta o quiere una copia de las cláusulas contractuales estándar de Apple, puede ponerse en contacto con nosotros en
+apple.com/es/privacy/contact
+.
+Los datos personales recopilados por
+Apple o una de sus empresas afiliadas
+en todo el mundo generalmente se almacenan en Apple Inc. en Estados Unidos. Independientemente de dónde se almacenen sus datos personales, Apple mantiene el mismo alto nivel de protección y medidas de protección.
+Las prácticas de privacidad de Apple, tal como se describen en esta Política de privacidad, cumplen el Global Cross-Border Privacy Rules (CBPR) System y el Global Privacy Recognition for Processors (PRP) System. Para obtener más información sobre el Global CBPR System y el Global PRP System, diríjase al
+Global CBPR Forum
+. Para ver nuestras certificaciones, vaya al
+Global CBPR System Directory
+. Para obtener más información sobre el alcance de nuestra participación, o para
+enviar una consulta de privacidad a través de los BBB National Programs
+, nuestro agente de responsabilidad, haga clic en los siguientes sellos oficiales.
+Apple puede procesar los datos personales relacionados con personas en la República Popular China en países fuera de ella, como Apple Inc. En Estados Unidos o Apple Distribution International Limited en la República de Irlanda. Si este es el caso, el tratamiento se llevará a cabo en conformidad con la legislación local, incluida la Ley de Protección de Datos Personales. Para los fines de tratamiento establecidos en esta Política de privacidad, Apple también puede transferir dichos datos personales a proveedores de servicios externos, que a su vez pueden almacenar o transferir los datos fuera de la República Popular China. Obtenga más información en las
+Declaraciones de privacidad en China continental
+.
+El compromiso de toda la empresa con su privacidad
+Para garantizar la seguridad de sus datos personales, comunicamos nuestras directrices en materia de privacidad y seguridad a todos los empleados de Apple y adoptamos las medidas correspondientes para proteger la privacidad dentro de la empresa.
+Consultas en materia de privacidad
+Si tiene preguntas acerca de la Política de privacidad de Apple o sus prácticas de privacidad, incluso cuando un proveedor de servicios externo actúa en nuestro nombre o le gustaría ponerse en contacto con nuestro responsable de protección de datos, contáctenos en
+apple.com/es/privacy/contact
+o llame al
+número de soporte de Apple
+de su país o región.
+También puede hacernos preguntas acerca del modo de presentar una reclamación relacionada con la privacidad y nos esforzaremos por ayudarlo.
+Apple se toma en serio sus preguntas acerca de la privacidad. Un equipo específico revisa su consulta para determinar la mejor manera de responder a su pregunta o inquietud, incluidas las consultas recibidas en respuesta a una solicitud de acceso o descarga. En la mayoría de casos, todas las consultas bien fundamentadas reciben una respuesta en un plazo de siete días. En otros casos, es posible que requiramos otra información o le informemos de que necesitamos más tiempo para responder.
+Si su reclamación indica que podría haber una mejora en nuestra gestión de problemas de privacidad, tomaremos medidas para aplicar ese cambio en cuanto se nos presente una oportunidad de manera razonable. Si un problema de privacidad ha repercutido negativamente en usted o en otra persona, tomaremos medidas para abordarlo con usted o con esa otra persona.
+En cualquier momento, incluso si no le satisface la respuesta de Apple, puedes dirigir su reclamación al agente regulador que proceda. Si así lo solicita, nos esforzaremos por ofrecerle toda la información respecto a las vías de reclamación correspondientes que puedan aplicarse a sus circunstancias.
+Cuando se realice una modificación sustancial de esta Política de privacidad, publicaremos un aviso en este sitio web con una semana de antelación como mínimo y, si tenemos sus datos en archivo, nos pondremos en contacto directamente con usted para comunicarle el cambio.
+La Global CBPR System Certification Mark y la Global PRP System Certification Mark™ son marcas comerciales de la International Trade Administration/Office of Global Data Policy and Privacy, y se utilizan con autorización.
