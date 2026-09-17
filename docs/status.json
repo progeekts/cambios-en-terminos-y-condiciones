@@ -1,9 +1,17 @@
 {
-  "last_check": null,
-  "targets": 8,
-  "ok": 0,
-  "errors": [],
-  "changes": 0,
   "schema_version": 4,
+  "classifier_version": 3,
+  "last_check": "2026-09-17 07:24:42 UTC",
+  "targets": 8,
+  "ok": 7,
+  "errors": [
+    {
+      "id": "meta-terms",
+      "platform": "Meta",
+      "document_type": "Términos de servicio",
+      "error": "contenido extraído demasiado corto"
+    }
+  ],
+  "changes": 0,
   "sources": []
 }
