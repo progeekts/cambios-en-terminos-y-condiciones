@@ -1,5 +1,23 @@
 [
   {
+    "schema_version": 4,
+    "classifier_version": 3,
+    "id": "microsoft-privacy",
+    "platform": "Microsoft",
+    "type": "Política de privacidad",
+    "document_type": "Política de privacidad",
+    "url": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+    "date": "2026-09-17 13:59:26 UTC",
+    "severity": "Baja",
+    "relevance": "Baja",
+    "categories": [],
+    "impacts": [],
+    "added_count": 1,
+    "removed_count": 1,
+    "summary": "Se han detectado 2 líneas modificadas, pero el sistema no ha podido asociarlas con una materia concreta. Conviene revisar el cambio exacto para conocer su alcance.",
+    "raw_diff": "--- versión anterior+++ versión nueva@@ -1,5 +1,5 @@ Microsoft Privacy Statement – Microsoft privacy\n-This is the Trace Id: cf52c532f5adfa64681759905fe2f328\n+This is the Trace Id: bb96b0f5ad2d4c1e382810ad5a1fcf07\n Skip to main content\n Privacy\n Privacy dashboard\n"
+  },
+  {
     "id": "anthropic-privacy",
     "platform": "Anthropic",
     "type": "Privacy Policy",
