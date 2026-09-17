@@ -1,7 +1,9 @@
 {
   "last_check": null,
-  "targets": 4,
+  "targets": 8,
   "ok": 0,
   "errors": [],
-  "changes": 0
+  "changes": 0,
+  "schema_version": 4,
+  "sources": []
 }

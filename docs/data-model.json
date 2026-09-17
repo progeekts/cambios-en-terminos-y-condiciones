@@ -13,5 +13,19 @@
     "removed_count": "number",
     "summary": "plain-language automatic description",
     "raw_diff": "verifiable textual difference"
+  },
+  "source_status": {
+    "id": "source identifier",
+    "platform": "company or service",
+    "document_type": "configured document family",
+    "url": "official source URL",
+    "state": "initialized | unchanged | changed | error",
+    "changed": "boolean",
+    "checked_at": "UTC check time",
+    "http_status": "number when available",
+    "final_url": "resolved URL when available",
+    "content_length": "number when available",
+    "content_hash": "sha256 when available",
+    "error": "diagnostic text when state is error"
   }
 }

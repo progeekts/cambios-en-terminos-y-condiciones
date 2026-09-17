@@ -8,6 +8,8 @@
     "Seguridad y cumplimiento",
     "Otro documento legal"
   ],
-  "company_expansion": "deferred",
-  "current_phase": "classification-and-comprehension"
+  "company_expansion": "controlled",
+  "current_phase": "reliability-and-user-experience",
+  "target_count": 8,
+  "principle": "expand only after source reliability is verified"
 }
