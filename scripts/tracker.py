@@ -5,6 +5,8 @@ import re
 import hashlib
 import time
 from datetime import datetime, timezone
+from email.utils import format_datetime
+from xml.sax.saxutils import escape as xml_escape
 import requests
 from bs4 import BeautifulSoup
 
@@ -12,14 +14,17 @@ TRACKED_DIR = "tracked_policies"
 DATA_FILE = "docs/diffs.json"
 STATUS_FILE = "docs/status.json"
 TARGETS_FILE = "scripts/targets.json"
+RSS_FILE = "docs/feed.xml"
+ATOM_FILE = "docs/atom.xml"
 MAX_LOG = 300
 MAX_DIFF_LINES = 220
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 CLASSIFIER_VERSION = 3
 MIN_CONTENT_LENGTH = 500
 MAX_SIZE_RATIO = 4.0
 MIN_SIZE_RATIO = 0.35
 RETRIES = 3
+SITE_URL = "https://progeekts.github.io/cambios-en-terminos-y-condiciones/"
 
 CATEGORY_RULES = {
     "IA y entrenamiento": [r"artificial intelligence", r"machine learning", r"training (our )?models", r"train.*models", r"inteligencia artificial", r"entrenamiento.*modelos"],
@@ -91,18 +96,53 @@ def build_plain_summary(categories, added_count, removed_count):
     if not categories:
         return f"Se han detectado {total} líneas modificadas, pero el sistema no ha podido asociarlas con una materia concreta. Conviene revisar el cambio exacto para conocer su alcance."
     descriptions = [PLAIN_LANGUAGE[c] for c in categories[:3]]
-    if len(descriptions) == 1:
-        subject = descriptions[0]
-    elif len(descriptions) == 2:
-        subject = f"{descriptions[0]} y {descriptions[1]}"
-    else:
-        subject = f"{descriptions[0]}, {descriptions[1]} y {descriptions[2]}"
+    subject = descriptions[0] if len(descriptions) == 1 else (f"{descriptions[0]} y {descriptions[1]}" if len(descriptions) == 2 else f"{descriptions[0]}, {descriptions[1]} y {descriptions[2]}")
     extra = " También se han detectado cambios en otras materias." if len(categories) > 3 else ""
     return f"Este documento ha cambiado en aspectos relacionados con {subject}.{extra} El resumen es automático; el texto exacto puede consultarse debajo."
 
 
 def content_hash(text):
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def change_id(policy_id, date, diff_text):
+    digest = hashlib.sha256(f"{policy_id}|{date}|{diff_text}".encode("utf-8")).hexdigest()[:12]
+    return f"{policy_id}-{digest}"
+
+
+def parse_date(value):
+    try:
+        return datetime.strptime(value, "%Y-%m-%d %H:%M:%S UTC").replace(tzinfo=timezone.utc)
+    except (TypeError, ValueError):
+        return datetime.now(timezone.utc)
+
+
+def ensure_change_ids(entries):
+    for entry in entries:
+        if not entry.get("change_id"):
+            entry["change_id"] = change_id(entry.get("id", "change"), entry.get("date", ""), entry.get("raw_diff", ""))
+        entry["permalink"] = f"{SITE_URL}#change-{entry['change_id']}"
+
+
+def write_feeds(entries):
+    ensure_change_ids(entries)
+    items = entries[:50]
+    rss_items = []
+    atom_items = []
+    for e in items:
+        title = f"{e.get('platform', 'Servicio')} — {e.get('document_type') or e.get('type', 'Documento')}"
+        summary = e.get("summary", "Cambio detectado en un documento oficial.")
+        link = e["permalink"]
+        dt = parse_date(e.get("date"))
+        rss_items.append(f"<item><title>{xml_escape(title)}</title><link>{xml_escape(link)}</link><guid isPermaLink=\"true\">{xml_escape(link)}</guid><pubDate>{format_datetime(dt)}</pubDate><description>{xml_escape(summary)}</description></item>")
+        atom_items.append(f"<entry><title>{xml_escape(title)}</title><id>{xml_escape(link)}</id><link href=\"{xml_escape(link)}\"/><updated>{dt.isoformat()}</updated><summary>{xml_escape(summary)}</summary></entry>")
+    rss = f'<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Observatorio de Cambios</title><link>{SITE_URL}</link><description>Cambios detectados en términos, privacidad y otras condiciones de servicios digitales.</description>{"".join(rss_items)}</channel></rss>'
+    updated = parse_date(items[0].get("date")) if items else datetime.now(timezone.utc)
+    atom = f'<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Observatorio de Cambios</title><id>{SITE_URL}</id><link href="{SITE_URL}"/><link rel="self" href="{SITE_URL}atom.xml"/><updated>{updated.isoformat()}</updated>{"".join(atom_items)}</feed>'
+    with open(RSS_FILE, "w", encoding="utf-8") as f:
+        f.write(rss)
+    with open(ATOM_FILE, "w", encoding="utf-8") as f:
+        f.write(atom)
 
 
 def validate_response(response, text, old_text=None):
@@ -145,13 +185,10 @@ def main():
             diff_log = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         diff_log = []
+    ensure_change_ids(diff_log)
 
     session = requests.Session()
-    session.headers.update({
-        "User-Agent": "Mozilla/5.0 (compatible; PolicyChangeObservatory/4.0; +https://github.com/progeekts/cambios-en-terminos-y-condiciones)",
-        "Accept": "text/html,application/xhtml+xml;q=0.9,text/plain;q=0.8,*/*;q=0.5",
-        "Accept-Language": "es-ES,es;q=0.8,en;q=0.6"
-    })
+    session.headers.update({"User-Agent": "Mozilla/5.0 (compatible; PolicyChangeObservatory/5.0; +https://github.com/progeekts/cambios-en-terminos-y-condiciones)", "Accept": "text/html,application/xhtml+xml;q=0.9,text/plain;q=0.8,*/*;q=0.5", "Accept-Language": "es-ES,es;q=0.8,en;q=0.6"})
     now = datetime.now(timezone.utc)
     current_date = now.strftime("%Y-%m-%d %H:%M:%S UTC")
     status = {"schema_version": SCHEMA_VERSION, "classifier_version": CLASSIFIER_VERSION, "last_check": current_date, "targets": len(targets), "ok": 0, "errors": [], "changes": 0, "sources": []}
@@ -177,46 +214,41 @@ def main():
             status["errors"].append({"id": policy_id, "platform": target["platform"], "document_type": document_type, "error": message})
             status["sources"].append(source_status)
             continue
-
         if not old_text:
             with open(filepath, "w", encoding="utf-8") as f:
                 f.write(new_text)
             source_status["state"] = "initialized"
             status["sources"].append(source_status)
             continue
-
         if content_hash(old_text) == source_status["content_hash"]:
             status["sources"].append(source_status)
             continue
-
         old_lines = old_text.splitlines(keepends=True)
         new_lines = new_text.splitlines(keepends=True)
         diff = list(difflib.unified_diff(old_lines, new_lines, fromfile="versión anterior", tofile="versión nueva", lineterm=""))
         if not diff:
             status["sources"].append(source_status)
             continue
-
         added_lines = [line[1:] for line in diff if line.startswith("+") and not line.startswith("+++")]
         removed_lines = [line[1:] for line in diff if line.startswith("-") and not line.startswith("---")]
         categories = classify_categories(added_lines, removed_lines)
         relevance = classify_relevance(categories, len(added_lines), len(removed_lines))
-        diff_log.insert(0, {
-            "schema_version": SCHEMA_VERSION, "classifier_version": CLASSIFIER_VERSION, "id": policy_id,
-            "platform": target["platform"], "type": document_type, "document_type": document_type, "url": target["url"],
-            "date": current_date, "severity": relevance, "relevance": relevance, "categories": categories, "impacts": categories,
-            "added_count": len(added_lines), "removed_count": len(removed_lines),
-            "summary": build_plain_summary(categories, len(added_lines), len(removed_lines)), "raw_diff": "".join(diff[:MAX_DIFF_LINES])
-        })
+        raw_diff = "".join(diff[:MAX_DIFF_LINES])
+        cid = change_id(policy_id, current_date, raw_diff)
+        diff_log.insert(0, {"schema_version": SCHEMA_VERSION, "classifier_version": CLASSIFIER_VERSION, "id": policy_id, "change_id": cid, "permalink": f"{SITE_URL}#change-{cid}", "platform": target["platform"], "type": document_type, "document_type": document_type, "url": target["url"], "date": current_date, "severity": relevance, "relevance": relevance, "categories": categories, "impacts": categories, "added_count": len(added_lines), "removed_count": len(removed_lines), "summary": build_plain_summary(categories, len(added_lines), len(removed_lines)), "raw_diff": raw_diff})
         status["changes"] += 1
-        source_status.update({"changed": True, "relevance": relevance, "categories": categories, "added_count": len(added_lines), "removed_count": len(removed_lines)})
+        source_status.update({"changed": True, "change_id": cid, "relevance": relevance, "categories": categories, "added_count": len(added_lines), "removed_count": len(removed_lines)})
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(new_text)
         status["sources"].append(source_status)
 
+    diff_log = diff_log[:MAX_LOG]
+    ensure_change_ids(diff_log)
     with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(diff_log[:MAX_LOG], f, indent=2, ensure_ascii=False)
+        json.dump(diff_log, f, indent=2, ensure_ascii=False)
     with open(STATUS_FILE, "w", encoding="utf-8") as f:
         json.dump(status, f, indent=2, ensure_ascii=False)
+    write_feeds(diff_log)
 
 
 if __name__ == "__main__":
