@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "classifier_version": 3,
   "last_check": "2026-09-17 07:24:42 UTC",
   "targets": 8,
@@ -12,5 +12,6 @@
       "error": "contenido extraído demasiado corto"
     }
   ],
-  "changes": 0
+  "changes": 0,
+  "sources": []
 }

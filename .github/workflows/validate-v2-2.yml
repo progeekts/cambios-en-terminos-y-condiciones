@@ -1,0 +1,81 @@
+name: Validar V2.2
+
+on:
+  push:
+    branches:
+      - v2.2-fiabilidad-cobertura
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-v2-2-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ejecutar pruebas
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Validar sintaxis del monitor
+        run: python -m py_compile scripts/tracker.py
+
+  live-diagnostic:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Ejecutar monitor contra fuentes reales
+        run: python scripts/tracker.py
+
+      - name: Mostrar diagnóstico de fuentes
+        run: |
+          python - <<'PY'
+          import json
+          with open('docs/status.json', encoding='utf-8') as f:
+              status = json.load(f)
+          print(f"Fuentes: {status.get('ok', 0)}/{status.get('targets', 0)} correctas")
+          print(f"Cambios detectados: {status.get('changes', 0)}")
+          print(f"Incidencias: {len(status.get('errors', []))}")
+          for source in status.get('sources', []):
+              print(f"- {source.get('platform')} / {source.get('document_type')}: {source.get('state')}" + (f" — {source.get('error')}" if source.get('error') else ''))
+          PY
+
+      - name: Publicar diagnóstico como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-2-source-diagnostic
+          path: docs/status.json
+          retention-days: 7
