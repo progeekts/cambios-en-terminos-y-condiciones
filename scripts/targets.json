@@ -6,5 +6,5 @@
   {"id":"google-privacy","platform":"Google","document_type":"Política de privacidad","url":"https://policies.google.com/privacy?hl=es"},
   {"id":"google-terms","platform":"Google","document_type":"Términos de servicio","url":"https://policies.google.com/terms?hl=es"},
   {"id":"apple-privacy","platform":"Apple","document_type":"Política de privacidad","url":"https://www.apple.com/es/legal/privacy/es/"},
-  {"id":"microsoft-privacy","platform":"Microsoft","document_type":"Política de privacidad","url":"https://www.microsoft.com/en-gb/privacy/privacystatement"}
+  {"id":"microsoft-privacy","platform":"Microsoft","document_type":"Política de privacidad","url":"https://www.microsoft.com/en-gb/privacy/privacystatement","selector":"main"}
 ]

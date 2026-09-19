@@ -1,9 +1,9 @@
-name: Validar V2.3
+name: Validar observatorio
 
 on:
   push:
     branches:
-      - v2.3-historial-consulta
+      - 'v*'
   pull_request:
     branches:
       - main
@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: validate-v2-3-${{ github.ref }}
+  group: validate-observatorio-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -61,7 +61,10 @@ jobs:
               status = json.load(f)
           with open('docs/diffs.json', encoding='utf-8') as f:
               diffs = json.load(f)
-          assert status.get('schema_version') == 5
+          with open('docs/schema-version.json', encoding='utf-8') as f:
+              expected = json.load(f)
+          assert status.get('schema_version') == expected.get('schema_version')
+          assert status.get('classifier_version') == expected.get('classifier_version')
           assert status.get('ok') == status.get('targets'), status.get('errors')
           assert not status.get('errors'), status.get('errors')
           assert all(x.get('change_id') and x.get('permalink') for x in diffs)
@@ -71,10 +74,10 @@ jobs:
           print(f"Cambios históricos: {len(diffs)}")
           print('RSS y Atom: XML válido')
           PY
-      - name: Publicar diagnóstico V2.3
+      - name: Publicar diagnóstico
         uses: actions/upload-artifact@v4
         with:
-          name: v2-3-live-diagnostic
+          name: observatory-live-diagnostic
           path: |
             docs/status.json
             docs/diffs.json
