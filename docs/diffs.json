@@ -3,6 +3,30 @@
     "schema_version": 5,
     "classifier_version": 3,
     "id": "microsoft-privacy",
+    "change_id": "microsoft-privacy-6026f35c6eb8",
+    "permalink": "https://progeekts.github.io/cambios-en-terminos-y-condiciones/#change-microsoft-privacy-6026f35c6eb8",
+    "platform": "Microsoft",
+    "type": "Política de privacidad",
+    "document_type": "Política de privacidad",
+    "url": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+    "date": "2026-09-19 07:11:18 UTC",
+    "severity": "Media",
+    "relevance": "Media",
+    "categories": [
+      "Cumplimiento y auditoría"
+    ],
+    "impacts": [
+      "Cumplimiento y auditoría"
+    ],
+    "added_count": 1,
+    "removed_count": 20,
+    "summary": "Este documento ha cambiado en aspectos relacionados con obligaciones de cumplimiento, auditorías o certificaciones. El resumen es automático; el texto exacto puede consultarse debajo.",
+    "raw_diff": "--- versión anterior+++ versión nueva@@ -1,11 +1,3 @@-Microsoft Privacy Statement – Microsoft privacy\n-This is the Trace Id: 5618df285b490822faa0aa40ebf5764d\n-Skip to main content\n-Privacy\n-Privacy dashboard\n-Privacy report\n-Privacy settings\n-Privacy Statement\n Microsoft Privacy Statement\n Last Updated: September 2026\n What's New?\n@@ -1546,15 +1538,4 @@ Windows Mixed Reality can also be used for audio and video communications.\n View Summary\n Learn more\n-Back to top\n-Back To Top\n-Your Privacy Choices\n-Consumer Health Privacy\n-Contact Microsoft\n-Privacy\n-Manage cookies\n-Terms of use\n-Trademarks\n-About our ads\n-EU Compliance DoCs\n-Regulatory reporting+Back to top"
+  },
+  {
+    "schema_version": 5,
+    "classifier_version": 3,
+    "id": "microsoft-privacy",
     "change_id": "microsoft-privacy-f01d23ad75ca",
     "permalink": "https://progeekts.github.io/cambios-en-terminos-y-condiciones/#change-microsoft-privacy-f01d23ad75ca",
     "platform": "Microsoft",
