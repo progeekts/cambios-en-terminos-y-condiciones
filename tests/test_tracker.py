@@ -1,5 +1,6 @@
 import unittest
-from scripts.tracker import classify_categories, classify_relevance, build_plain_summary, extract_effective_date, semantic_fingerprint, diff_fingerprint
+from datetime import datetime, timezone, timedelta
+from scripts.tracker import classify_categories, classify_relevance, build_plain_summary, extract_effective_date, semantic_fingerprint, diff_fingerprint, seconds_since
 
 class TrackerClassifierTests(unittest.TestCase):
     def test_privacy_and_retention(self):
@@ -32,6 +33,15 @@ class TrackerClassifierTests(unittest.TestCase):
         a = diff_fingerprint("policy", ["Nueva A", "Nueva B"], ["Vieja A"])
         b = diff_fingerprint("policy", ["Nueva B", "Nueva A"], ["Vieja A"])
         self.assertEqual(a, b)
+
+    def test_confirmation_age(self):
+        now = datetime(2026, 9, 22, 12, 0, tzinfo=timezone.utc)
+        first = (now - timedelta(hours=7)).strftime("%Y-%m-%d %H:%M:%S UTC")
+        self.assertGreaterEqual(seconds_since(first, now), 6 * 60 * 60)
+
+    def test_invalid_confirmation_age_is_zero(self):
+        now = datetime(2026, 9, 22, 12, 0, tzinfo=timezone.utc)
+        self.assertEqual(seconds_since("invalid", now), 0)
 
 if __name__ == "__main__":
     unittest.main()
