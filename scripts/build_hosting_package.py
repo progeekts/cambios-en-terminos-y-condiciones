@@ -5,7 +5,7 @@ from pathlib import Path
 SOURCE = Path("docs")
 OUTPUT = Path("hosting-package")
 LEGACY_URL = "https://progeekts.github.io/cambios-en-terminos-y-condiciones/"
-SITE_URL = os.getenv("SITE_URL", "https://progeekts.es/").rstrip("/") + "/"
+SITE_URL = os.getenv("SITE_URL", "https://progeekts.es/tyc/").rstrip("/") + "/"
 EXCLUDE_SUFFIXES = {".md"}
 
 def should_copy(path: Path) -> bool:
