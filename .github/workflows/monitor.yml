@@ -38,7 +38,7 @@ jobs:
 
       - name: Preparar paquete para hosting
         env:
-          SITE_URL: https://progeekts.es/
+          SITE_URL: https://progeekts.es/tyc/
         run: python scripts/build_hosting_package.py
 
       - name: Publicar paquete descargable
