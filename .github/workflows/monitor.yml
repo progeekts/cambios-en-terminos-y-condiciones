@@ -49,6 +49,19 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+      - name: Desplegar web por SFTP
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_PORT: ${{ secrets.SFTP_PORT }}
+          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
+        run: |
+          test -n "$SFTP_HOST" && test -n "$SFTP_PORT" && test -n "$SFTP_USERNAME" && test -n "$SFTP_PASSWORD" && test -n "$SFTP_REMOTE_PATH"
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+          lftp -u "$SFTP_USERNAME,$SFTP_PASSWORD" -p "$SFTP_PORT" "sftp://$SFTP_HOST" -e "set sftp:auto-confirm yes; set net:max-retries 2; set net:timeout 20; mirror -R --delete --verbose hosting-package/ $SFTP_REMOTE_PATH; bye"
+
       - name: Guardar resultados
         run: |
           git config user.name "PolicyTracker Bot"
