@@ -1,59 +1,10 @@
 {
   "schema_version": 5,
   "classifier_version": 3,
-  "last_check": "2026-09-22 10:27:43 UTC",
+  "last_check": "2026-09-22 10:35:28 UTC",
   "targets": 8,
-  "ok": 0,
-  "errors": [
-    {
-      "id": "openai-privacy",
-      "platform": "OpenAI",
-      "document_type": "Política de privacidad",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
-    },
-    {
-      "id": "meta-terms",
-      "platform": "Meta",
-      "document_type": "Términos de servicio",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
-    },
-    {
-      "id": "x-privacy",
-      "platform": "X",
-      "document_type": "Política de privacidad",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
-    },
-    {
-      "id": "anthropic-privacy",
-      "platform": "Anthropic",
-      "document_type": "Política de privacidad",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
-    },
-    {
-      "id": "google-privacy",
-      "platform": "Google",
-      "document_type": "Política de privacidad",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
-    },
-    {
-      "id": "google-terms",
-      "platform": "Google",
-      "document_type": "Términos de servicio",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
-    },
-    {
-      "id": "apple-privacy",
-      "platform": "Apple",
-      "document_type": "Política de privacidad",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
-    },
-    {
-      "id": "microsoft-privacy",
-      "platform": "Microsoft",
-      "document_type": "Política de privacidad",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
-    }
-  ],
+  "ok": 8,
+  "errors": [],
   "changes": 0,
   "sources": [
     {
@@ -61,80 +12,112 @@
       "platform": "OpenAI",
       "document_type": "Política de privacidad",
       "url": "https://openai.com/policies/privacy-policy/",
-      "state": "error",
+      "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:27:43 UTC",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
+      "checked_at": "2026-09-22 10:35:28 UTC",
+      "http_status": 200,
+      "final_url": "https://openai.com/policies/privacy-policy/",
+      "content_length": 28643,
+      "content_hash": "04f6dbd8f4e24414ce2246534692266f285c398d397d113ec8e177f2a894776f",
+      "effective_date": null
     },
     {
       "id": "meta-terms",
       "platform": "Meta",
       "document_type": "Términos de servicio",
       "url": "https://www.facebook.com/terms.php",
-      "state": "error",
+      "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:27:43 UTC",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
+      "checked_at": "2026-09-22 10:35:28 UTC",
+      "http_status": 200,
+      "final_url": "https://www.facebook.com/terms.php",
+      "content_length": 38802,
+      "content_hash": "8e7938f09d7aef72e92cf792a1d56160db11a292d68c3236d6af8e89aae7f96f",
+      "effective_date": "1 de e"
     },
     {
       "id": "x-privacy",
       "platform": "X",
       "document_type": "Política de privacidad",
       "url": "https://x.com/en/privacy",
-      "state": "error",
+      "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:27:43 UTC",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
+      "checked_at": "2026-09-22 10:35:28 UTC",
+      "http_status": 200,
+      "final_url": "https://x.com/en/privacy",
+      "content_length": 33441,
+      "content_hash": "bda463c2ed5da230226a4139820d9159d9e0b2abf0ae01cfe88e5d112afa0494",
+      "effective_date": null
     },
     {
       "id": "anthropic-privacy",
       "platform": "Anthropic",
       "document_type": "Política de privacidad",
       "url": "https://www.anthropic.com/legal/privacy",
-      "state": "error",
+      "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:27:43 UTC",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
+      "checked_at": "2026-09-22 10:35:28 UTC",
+      "http_status": 200,
+      "final_url": "https://www.anthropic.com/legal/privacy",
+      "content_length": 40091,
+      "content_hash": "87d3896405eb8294184d4d2ffb8932f6a9274ee4c4630075a84be999830d4bbb",
+      "effective_date": null
     },
     {
       "id": "google-privacy",
       "platform": "Google",
       "document_type": "Política de privacidad",
       "url": "https://policies.google.com/privacy?hl=es",
-      "state": "error",
+      "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:27:43 UTC",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
+      "checked_at": "2026-09-22 10:35:28 UTC",
+      "http_status": 200,
+      "final_url": "https://policies.google.com/privacy?hl=es",
+      "content_length": 79518,
+      "content_hash": "74de9be48526d24f61fcecdbc9e68b08251e4d94e82a7958de590784d2dea206",
+      "effective_date": null
     },
     {
       "id": "google-terms",
       "platform": "Google",
       "document_type": "Términos de servicio",
       "url": "https://policies.google.com/terms?hl=es",
-      "state": "error",
+      "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:27:43 UTC",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
+      "checked_at": "2026-09-22 10:35:28 UTC",
+      "http_status": 200,
+      "final_url": "https://policies.google.com/terms?hl=es",
+      "content_length": 35093,
+      "content_hash": "3dbe889796f7f86691d70d74a085a4a04bf8ae0a73b038c00181ab9be466665a",
+      "effective_date": null
     },
     {
       "id": "apple-privacy",
       "platform": "Apple",
       "document_type": "Política de privacidad",
       "url": "https://www.apple.com/es/legal/privacy/es/",
-      "state": "error",
+      "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:27:43 UTC",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
+      "checked_at": "2026-09-22 10:35:28 UTC",
+      "http_status": 200,
+      "final_url": "https://www.apple.com/es/legal/privacy/es/",
+      "content_length": 32121,
+      "content_hash": "15b31bedb6bfdfc0dffea5dac42e46292ec644f9769a81cf1d57c3c108e76a84",
+      "effective_date": null
     },
     {
       "id": "microsoft-privacy",
       "platform": "Microsoft",
       "document_type": "Política de privacidad",
       "url": "https://www.microsoft.com/en-gb/privacy/privacystatement",
-      "state": "error",
+      "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:27:43 UTC",
-      "error": "name 'BLOCK_PATTERNS' is not defined"
+      "checked_at": "2026-09-22 10:35:28 UTC",
+      "http_status": 200,
+      "final_url": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+      "content_length": 212277,
+      "content_hash": "1989f7a0ef8e946cc4a4674a6a933a4583afc9de08cddcf572fe711e998d4092",
+      "effective_date": "September 2026\nWhat's"
     }
   ]
 }
