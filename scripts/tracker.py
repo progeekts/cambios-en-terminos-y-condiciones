@@ -101,8 +101,22 @@ def build_plain_summary(categories, added_count, removed_count):
     return f"Este documento ha cambiado en aspectos relacionados con {subject}.{extra} El resumen es automático; el texto exacto puede consultarse debajo."
 
 
+def canonical_text(text):
+    lines = []
+    for line in text.splitlines():
+        line = re.sub(r"\\s+", " ", line).strip()
+        if line:
+            lines.append(line)
+    return "\\n".join(lines)
+
+
 def content_hash(text):
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+    return hashlib.sha256(canonical_text(text).encode("utf-8")).hexdigest()
+
+
+def semantic_fingerprint(text):
+    normalized = sorted(x.casefold() for x in canonical_text(text).splitlines() if x)
+    return hashlib.sha256("\\n".join(normalized).encode("utf-8")).hexdigest()
 
 
 def change_id(policy_id, date, diff_text):
@@ -223,8 +237,12 @@ def main():
         if content_hash(old_text) == source_status["content_hash"]:
             status["sources"].append(source_status)
             continue
-        old_lines = old_text.splitlines(keepends=True)
-        new_lines = new_text.splitlines(keepends=True)
+        if semantic_fingerprint(old_text) == semantic_fingerprint(new_text):
+            source_status["noise_ignored"] = "reordered_content"
+            status["sources"].append(source_status)
+            continue
+        old_lines = canonical_text(old_text).splitlines(keepends=True)
+        new_lines = canonical_text(new_text).splitlines(keepends=True)
         diff = list(difflib.unified_diff(old_lines, new_lines, fromfile="versión anterior", tofile="versión nueva", lineterm=""))
         if not diff:
             status["sources"].append(source_status)
