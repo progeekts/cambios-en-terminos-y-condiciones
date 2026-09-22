@@ -60,7 +60,7 @@ PLAIN_LANGUAGE = {
     "Cumplimiento y auditoría": "obligaciones de cumplimiento, auditorías o certificaciones",
     "Cuenta y acceso al servicio": "las reglas sobre cuentas, acceso, suspensión o finalización del servicio"
 }
-EFFECTIVE_DATE_PATTERNS = [r"(?:A partir del|Vigente desde|En vigor desde|Effective|Effective date|Last updated|Última actualización)[: ]+([^\\n|]{6,80})"]\n\nBLOCK_PATTERNS = [r"access denied", r"captcha", r"verify you are human", r"just a moment", r"cloudflare", r"enable javascript and cookies", r"unusual traffic", r"sign in to continue"]
+EFFECTIVE_DATE_PATTERNS = [r"(?:A partir del|Vigente desde|En vigor desde|Effective date|Effective|Last updated|Última actualización)[: ]+([^\\n|]{6,80})"]
 
 
 def clean_html(html_content, selector=None):
