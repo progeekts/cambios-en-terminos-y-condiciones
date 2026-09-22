@@ -62,6 +62,8 @@ PLAIN_LANGUAGE = {
 }
 EFFECTIVE_DATE_PATTERNS = [r"(?:A partir del|Vigente desde|En vigor desde|Effective date|Effective|Last updated|Última actualización)[: ]+([^\\n|]{6,80})"]
 
+BLOCK_PATTERNS = [r"access denied", r"captcha", r"verify you are human", r"just a moment", r"cloudflare", r"enable javascript and cookies", r"unusual traffic", r"sign in to continue"]
+
 
 def clean_html(html_content, selector=None):
     soup = BeautifulSoup(html_content, "html.parser")
