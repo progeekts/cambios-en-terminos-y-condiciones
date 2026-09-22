@@ -36,6 +36,21 @@ jobs:
       - name: Ejecutar rastreo y análisis
         run: python scripts/tracker.py
 
+      - name: Validar salud del observatorio
+        run: |
+          python - <<'PY'
+          import json, sys
+          with open("docs/status.json", encoding="utf-8") as f:
+              status = json.load(f)
+          targets = int(status.get("targets", 0))
+          ok = int(status.get("ok", 0))
+          errors = status.get("errors", [])
+          if targets <= 0 or ok != targets or errors:
+              print(f"Monitor degradado: {ok}/{targets} fuentes OK; errores={len(errors)}")
+              sys.exit(1)
+          print(f"Monitor saludable: {ok}/{targets} fuentes OK")
+          PY
+
       - name: Preparar paquete para hosting
         env:
           SITE_URL: https://progeekts.es/tyc/
