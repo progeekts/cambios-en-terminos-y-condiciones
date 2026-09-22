@@ -106,8 +106,8 @@ def canonical_text(text):
     for line in text.splitlines():
         line = re.sub(r"\\s+", " ", line).strip()
         if line:
-            lines.append(line)
-    return "\\n".join(lines)
+            if re.search(r"\\bTrace Id:\\s*[0-9a-f]{16,}\\b", line, re.I):\n            continue\n        lines.append(line)
+    return "\n".join(lines)
 
 
 def content_hash(text):
@@ -116,7 +116,7 @@ def content_hash(text):
 
 def semantic_fingerprint(text):
     normalized = sorted(x.casefold() for x in canonical_text(text).splitlines() if x)
-    return hashlib.sha256("\\n".join(normalized).encode("utf-8")).hexdigest()
+    return hashlib.sha256("\n".join(normalized).encode("utf-8")).hexdigest()
 
 
 def change_id(policy_id, date, diff_text):
