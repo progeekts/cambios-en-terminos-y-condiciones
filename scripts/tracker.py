@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 TRACKED_DIR = "tracked_policies"
 DATA_FILE = "docs/diffs.json"
 STATUS_FILE = "docs/status.json"
+SOURCE_STATE_FILE = "tracked_policies/source_state.json"
 TARGETS_FILE = "scripts/targets.json"
 RSS_FILE = "docs/feed.xml"
 ATOM_FILE = "docs/atom.xml"
@@ -244,6 +245,11 @@ def main():
         diff_log = []
     ensure_change_ids(diff_log)
     seen_fingerprints = historical_fingerprints(diff_log)
+    try:
+        with open(SOURCE_STATE_FILE, "r", encoding="utf-8") as f:
+            source_state = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        source_state = {}
 
     session = requests.Session()
     session.headers.update({"User-Agent": "Mozilla/5.0 (compatible; PolicyChangeObservatory/5.0; +https://github.com/progeekts/cambios-en-terminos-y-condiciones)", "Accept": "text/html,application/xhtml+xml;q=0.9,text/plain;q=0.8,*/*;q=0.5", "Accept-Language": "es-ES,es;q=0.8,en;q=0.6"})
@@ -279,6 +285,11 @@ def main():
             status["sources"].append(source_status)
             continue
         if content_hash(old_text) == source_status["content_hash"]:
+            # Si la fuente vuelve al snapshot estable, descartamos cualquier
+            # candidato pendiente: era una variante transitoria.
+            if policy_id in source_state:
+                source_state.pop(policy_id, None)
+                source_status["noise_ignored"] = "unstable_variant_reverted"
             status["sources"].append(source_status)
             continue
         if semantic_fingerprint(old_text) == semantic_fingerprint(new_text):
@@ -300,6 +311,42 @@ def main():
                 f.write(new_text)
             status["sources"].append(source_status)
             continue
+
+        # Un cambio debe observarse en dos ejecuciones consecutivas antes de
+        # publicarse. Así una variante A/B o una respuesta transitoria de la
+        # fuente no se convierte en una alerta legal.
+        candidate = source_state.get(policy_id, {}).get("candidate")
+        if not candidate or candidate.get("content_hash") != source_status["content_hash"]:
+            source_state[policy_id] = {
+                "candidate": {
+                    "content_hash": source_status["content_hash"],
+                    "diff_fingerprint": fingerprint,
+                    "first_seen": current_date,
+                    "confirmations": 1,
+                    "effective_date": source_status.get("effective_date"),
+                }
+            }
+            source_status["state"] = "pending_confirmation"
+            source_status["pending_change"] = True
+            source_status["first_seen"] = current_date
+            source_status["confirmations"] = 1
+            status["sources"].append(source_status)
+            continue
+
+        confirmations = int(candidate.get("confirmations", 1)) + 1
+        candidate["confirmations"] = confirmations
+        source_state[policy_id]["candidate"] = candidate
+        if confirmations < 2:
+            source_status["state"] = "pending_confirmation"
+            source_status["pending_change"] = True
+            source_status["first_seen"] = candidate.get("first_seen")
+            source_status["confirmations"] = confirmations
+            status["sources"].append(source_status)
+            continue
+
+        # La misma variante ha persistido en dos ejecuciones: ya es un cambio
+        # confirmado. Solo ahora se actualiza el snapshot estable.
+        source_state.pop(policy_id, None)
         categories = classify_categories(added_lines, removed_lines)
         relevance = classify_relevance(categories, len(added_lines), len(removed_lines))
         raw_diff = "".join(diff[:MAX_DIFF_LINES])
@@ -318,6 +365,8 @@ def main():
         json.dump(diff_log, f, indent=2, ensure_ascii=False)
     with open(STATUS_FILE, "w", encoding="utf-8") as f:
         json.dump(status, f, indent=2, ensure_ascii=False)
+    with open(SOURCE_STATE_FILE, "w", encoding="utf-8") as f:
+        json.dump(source_state, f, indent=2, ensure_ascii=False)
     write_feeds(diff_log)
 
 
