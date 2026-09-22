@@ -36,11 +36,24 @@ jobs:
       - name: Ejecutar rastreo y análisis
         run: python scripts/tracker.py
 
+      - name: Preparar paquete para hosting
+        env:
+          SITE_URL: https://progeekts.es/
+        run: python scripts/build_hosting_package.py
+
+      - name: Publicar paquete descargable
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-progeekts-es
+          path: hosting-package/
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Guardar resultados
         run: |
           git config user.name "PolicyTracker Bot"
           git config user.email "tracker-bot@users.noreply.github.com"
-          git add tracked_policies/ docs/diffs.json docs/status.json
+          git add tracked_policies/ docs/diffs.json docs/status.json docs/feed.xml docs/atom.xml
           if ! git diff --cached --quiet; then
             git commit -m "chore: actualización del observatorio [$(date -u +'%Y-%m-%d')]"
             git push
