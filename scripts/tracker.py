@@ -60,7 +60,10 @@ PLAIN_LANGUAGE = {
     "Cumplimiento y auditoría": "obligaciones de cumplimiento, auditorías o certificaciones",
     "Cuenta y acceso al servicio": "las reglas sobre cuentas, acceso, suspensión o finalización del servicio"
 }
-EFFECTIVE_DATE_PATTERNS = [r"(?:A partir del|Vigente desde|En vigor desde|Effective date|Effective|Last updated|Última actualización)[: ]+([^\\n|]{6,80})"]
+EFFECTIVE_DATE_PATTERNS = [
+    r"(?:A partir del|Vigente desde|En vigor desde)\s*[:\-]?\s*((?:[0-3]?\d\s+de\s+[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+\s+de\s+\d{4})|(?:[0-3]?\d[/-][01]?\d[/-]\d{4}))",
+    r"(?:Effective date|Last updated)\s*[:\-]?\s*((?:January|February|March|April|May|June|July|August|September|October|November|December)\s+[0-3]?\d,?\s+\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4})",
+]
 
 BLOCK_PATTERNS = [r"access denied", r"captcha", r"verify you are human", r"just a moment", r"cloudflare", r"enable javascript and cookies", r"unusual traffic", r"sign in to continue"]
 
@@ -80,11 +83,13 @@ def clean_html(html_content, selector=None):
 
 
 def extract_effective_date(text):
-    head = canonical_text(text)[:5000]
+    # Se usa el texto con saltos originales para impedir que una captura
+    # atraviese encabezados o secciones distintas del documento.
+    head = "\n".join(text.splitlines()[:120])
     for pattern in EFFECTIVE_DATE_PATTERNS:
         match = re.search(pattern, head, re.IGNORECASE)
         if match:
-            return match.group(1).strip(" .|")
+            return " ".join(match.group(1).split()).strip(" .|")
     return None
 
 
