@@ -122,6 +122,30 @@ def semantic_fingerprint(text):
     return hashlib.sha256("\n".join(normalized).encode("utf-8")).hexdigest()
 
 
+def diff_fingerprint(policy_id, added_lines, removed_lines):
+    payload = {
+        "id": policy_id,
+        "added": sorted(" ".join(x.split()).casefold() for x in added_lines if x.strip()),
+        "removed": sorted(" ".join(x.split()).casefold() for x in removed_lines if x.strip()),
+    }
+    return hashlib.sha256(json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def historical_fingerprints(entries):
+    result = set()
+    for e in entries:
+        fp = e.get("diff_fingerprint")
+        if fp:
+            result.add(fp)
+            continue
+        raw = e.get("raw_diff", "")
+        added = [x[1:] for x in raw.splitlines() if x.startswith("+") and not x.startswith("+++")]
+        removed = [x[1:] for x in raw.splitlines() if x.startswith("-") and not x.startswith("---")]
+        if added or removed:
+            result.add(diff_fingerprint(e.get("id", "change"), added, removed))
+    return result
+
+
 def change_id(policy_id, date, diff_text):
     digest = hashlib.sha256(f"{policy_id}|{date}|{diff_text}".encode("utf-8")).hexdigest()[:12]
     return f"{policy_id}-{digest}"
@@ -203,6 +227,7 @@ def main():
     except (FileNotFoundError, json.JSONDecodeError):
         diff_log = []
     ensure_change_ids(diff_log)
+    seen_fingerprints = historical_fingerprints(diff_log)
 
     session = requests.Session()
     session.headers.update({"User-Agent": "Mozilla/5.0 (compatible; PolicyChangeObservatory/5.0; +https://github.com/progeekts/cambios-en-terminos-y-condiciones)", "Accept": "text/html,application/xhtml+xml;q=0.9,text/plain;q=0.8,*/*;q=0.5", "Accept-Language": "es-ES,es;q=0.8,en;q=0.6"})
@@ -252,11 +277,19 @@ def main():
             continue
         added_lines = [line[1:] for line in diff if line.startswith("+") and not line.startswith("+++")]
         removed_lines = [line[1:] for line in diff if line.startswith("-") and not line.startswith("---")]
+        fingerprint = diff_fingerprint(policy_id, added_lines, removed_lines)
+        if fingerprint in seen_fingerprints:
+            source_status["noise_ignored"] = "duplicate_historical_change"
+            with open(filepath, "w", encoding="utf-8") as f:
+                f.write(new_text)
+            status["sources"].append(source_status)
+            continue
         categories = classify_categories(added_lines, removed_lines)
         relevance = classify_relevance(categories, len(added_lines), len(removed_lines))
         raw_diff = "".join(diff[:MAX_DIFF_LINES])
         cid = change_id(policy_id, current_date, raw_diff)
-        diff_log.insert(0, {"schema_version": SCHEMA_VERSION, "classifier_version": CLASSIFIER_VERSION, "id": policy_id, "change_id": cid, "permalink": f"{SITE_URL}#change-{cid}", "platform": target["platform"], "type": document_type, "document_type": document_type, "url": target["url"], "date": current_date, "severity": relevance, "relevance": relevance, "categories": categories, "impacts": categories, "added_count": len(added_lines), "removed_count": len(removed_lines), "summary": build_plain_summary(categories, len(added_lines), len(removed_lines)), "raw_diff": raw_diff})
+        diff_log.insert(0, {"schema_version": SCHEMA_VERSION, "classifier_version": CLASSIFIER_VERSION, "id": policy_id, "change_id": cid, "permalink": f"{SITE_URL}#change-{cid}", "platform": target["platform"], "type": document_type, "document_type": document_type, "url": target["url"], "date": current_date, "severity": relevance, "relevance": relevance, "categories": categories, "impacts": categories, "added_count": len(added_lines), "removed_count": len(removed_lines), "summary": build_plain_summary(categories, len(added_lines), len(removed_lines)), "raw_diff": raw_diff, "diff_fingerprint": fingerprint})
+        seen_fingerprints.add(fingerprint)
         status["changes"] += 1
         source_status.update({"changed": True, "change_id": cid, "relevance": relevance, "categories": categories, "added_count": len(added_lines), "removed_count": len(removed_lines)})
         with open(filepath, "w", encoding="utf-8") as f:
