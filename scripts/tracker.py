@@ -25,6 +25,8 @@ MIN_CONTENT_LENGTH = 500
 MAX_SIZE_RATIO = 4.0
 MIN_SIZE_RATIO = 0.35
 RETRIES = 3
+MIN_CONFIRMATIONS = 2
+MIN_CONFIRMATION_AGE_SECONDS = 6 * 60 * 60
 SITE_URL = "https://progeekts.github.io/cambios-en-terminos-y-condiciones/"
 
 CATEGORY_RULES = {
@@ -166,6 +168,14 @@ def historical_fingerprints(entries):
 def change_id(policy_id, date, diff_text):
     digest = hashlib.sha256(f"{policy_id}|{date}|{diff_text}".encode("utf-8")).hexdigest()[:12]
     return f"{policy_id}-{digest}"
+
+
+def seconds_since(value, now):
+    try:
+        first = datetime.strptime(value, "%Y-%m-%d %H:%M:%S UTC").replace(tzinfo=timezone.utc)
+        return max(0, (now - first).total_seconds())
+    except (TypeError, ValueError):
+        return 0
 
 
 def parse_date(value):
@@ -330,17 +340,23 @@ def main():
             source_status["pending_change"] = True
             source_status["first_seen"] = current_date
             source_status["confirmations"] = 1
+            source_status["confirmation_required"] = MIN_CONFIRMATIONS
+            source_status["confirmation_age_required_hours"] = MIN_CONFIRMATION_AGE_SECONDS // 3600
             status["sources"].append(source_status)
             continue
 
         confirmations = int(candidate.get("confirmations", 1)) + 1
         candidate["confirmations"] = confirmations
         source_state[policy_id]["candidate"] = candidate
-        if confirmations < 2:
+        age_seconds = seconds_since(candidate.get("first_seen"), now)
+        if confirmations < MIN_CONFIRMATIONS or age_seconds < MIN_CONFIRMATION_AGE_SECONDS:
             source_status["state"] = "pending_confirmation"
             source_status["pending_change"] = True
             source_status["first_seen"] = candidate.get("first_seen")
             source_status["confirmations"] = confirmations
+            source_status["confirmation_required"] = MIN_CONFIRMATIONS
+            source_status["confirmation_age_hours"] = round(age_seconds / 3600, 1)
+            source_status["confirmation_age_required_hours"] = MIN_CONFIRMATION_AGE_SECONDS // 3600
             status["sources"].append(source_status)
             continue
 
