@@ -1,7 +1,7 @@
 {
   "schema_version": 5,
   "classifier_version": 3,
-  "last_check": "2026-09-22 10:35:28 UTC",
+  "last_check": "2026-09-22 10:42:55 UTC",
   "targets": 8,
   "ok": 8,
   "errors": [],
@@ -14,7 +14,7 @@
       "url": "https://openai.com/policies/privacy-policy/",
       "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:35:28 UTC",
+      "checked_at": "2026-09-22 10:42:55 UTC",
       "http_status": 200,
       "final_url": "https://openai.com/policies/privacy-policy/",
       "content_length": 28643,
@@ -28,12 +28,12 @@
       "url": "https://www.facebook.com/terms.php",
       "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:35:28 UTC",
+      "checked_at": "2026-09-22 10:42:55 UTC",
       "http_status": 200,
       "final_url": "https://www.facebook.com/terms.php",
       "content_length": 38802,
       "content_hash": "8e7938f09d7aef72e92cf792a1d56160db11a292d68c3236d6af8e89aae7f96f",
-      "effective_date": "1 de e"
+      "effective_date": "1 de enero de 2025"
     },
     {
       "id": "x-privacy",
@@ -42,7 +42,7 @@
       "url": "https://x.com/en/privacy",
       "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:35:28 UTC",
+      "checked_at": "2026-09-22 10:42:55 UTC",
       "http_status": 200,
       "final_url": "https://x.com/en/privacy",
       "content_length": 33441,
@@ -56,7 +56,7 @@
       "url": "https://www.anthropic.com/legal/privacy",
       "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:35:28 UTC",
+      "checked_at": "2026-09-22 10:42:55 UTC",
       "http_status": 200,
       "final_url": "https://www.anthropic.com/legal/privacy",
       "content_length": 40091,
@@ -70,7 +70,7 @@
       "url": "https://policies.google.com/privacy?hl=es",
       "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:35:28 UTC",
+      "checked_at": "2026-09-22 10:42:55 UTC",
       "http_status": 200,
       "final_url": "https://policies.google.com/privacy?hl=es",
       "content_length": 79518,
@@ -84,7 +84,7 @@
       "url": "https://policies.google.com/terms?hl=es",
       "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:35:28 UTC",
+      "checked_at": "2026-09-22 10:42:55 UTC",
       "http_status": 200,
       "final_url": "https://policies.google.com/terms?hl=es",
       "content_length": 35093,
@@ -98,7 +98,7 @@
       "url": "https://www.apple.com/es/legal/privacy/es/",
       "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:35:28 UTC",
+      "checked_at": "2026-09-22 10:42:55 UTC",
       "http_status": 200,
       "final_url": "https://www.apple.com/es/legal/privacy/es/",
       "content_length": 32121,
@@ -112,12 +112,12 @@
       "url": "https://www.microsoft.com/en-gb/privacy/privacystatement",
       "state": "ok",
       "changed": false,
-      "checked_at": "2026-09-22 10:35:28 UTC",
+      "checked_at": "2026-09-22 10:42:55 UTC",
       "http_status": 200,
       "final_url": "https://www.microsoft.com/en-gb/privacy/privacystatement",
       "content_length": 212277,
       "content_hash": "1989f7a0ef8e946cc4a4674a6a933a4583afc9de08cddcf572fe711e998d4092",
-      "effective_date": "September 2026\nWhat's"
+      "effective_date": "September 2026"
     }
   ]
 }
