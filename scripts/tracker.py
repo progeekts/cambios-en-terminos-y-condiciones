@@ -60,7 +60,7 @@ PLAIN_LANGUAGE = {
     "Cumplimiento y auditoría": "obligaciones de cumplimiento, auditorías o certificaciones",
     "Cuenta y acceso al servicio": "las reglas sobre cuentas, acceso, suspensión o finalización del servicio"
 }
-BLOCK_PATTERNS = [r"access denied", r"captcha", r"verify you are human", r"just a moment", r"cloudflare", r"enable javascript and cookies", r"unusual traffic", r"sign in to continue"]
+EFFECTIVE_DATE_PATTERNS = [r"(?:A partir del|Vigente desde|En vigor desde|Effective|Effective date|Last updated|Última actualización)[: ]+([^\\n|]{6,80})"]\n\nBLOCK_PATTERNS = [r"access denied", r"captcha", r"verify you are human", r"just a moment", r"cloudflare", r"enable javascript and cookies", r"unusual traffic", r"sign in to continue"]
 
 
 def clean_html(html_content, selector=None):
@@ -75,6 +75,15 @@ def clean_html(html_content, selector=None):
     text = soup.get_text(separator="\n")
     lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines()]
     return "\n".join(line for line in lines if line)
+
+
+def extract_effective_date(text):
+    head = canonical_text(text)[:5000]
+    for pattern in EFFECTIVE_DATE_PATTERNS:
+        match = re.search(pattern, head, re.IGNORECASE)
+        if match:
+            return match.group(1).strip(" .|")
+    return None
 
 
 def classify_categories(added_lines, removed_lines):
@@ -248,7 +257,7 @@ def main():
             res = fetch_document(session, target)
             new_text = clean_html(res.text, target.get("selector"))
             validate_response(res, new_text, old_text or None)
-            source_status.update({"state": "ok", "http_status": res.status_code, "final_url": res.url, "content_length": len(new_text), "content_hash": content_hash(new_text)})
+            source_status.update({"state": "ok", "http_status": res.status_code, "final_url": res.url, "content_length": len(new_text), "content_hash": content_hash(new_text), "effective_date": extract_effective_date(new_text)})
             status["ok"] += 1
         except Exception as exc:
             message = str(exc)[:220]
