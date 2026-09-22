@@ -104,9 +104,12 @@ def build_plain_summary(categories, added_count, removed_count):
 def canonical_text(text):
     lines = []
     for line in text.splitlines():
-        line = re.sub(r"\\s+", " ", line).strip()
-        if line:
-            if re.search(r"\\bTrace Id:\\s*[0-9a-f]{16,}\\b", line, re.I):\n            continue\n        lines.append(line)
+        line = " ".join(line.split()).strip()
+        if not line:
+            continue
+        if "Trace Id:" in line:
+            continue
+        lines.append(line)
     return "\n".join(lines)
 
 
