@@ -2,7 +2,10 @@ name: Monitor Políticas Legales
 
 on:
   schedule:
-    - cron: '0 2 * * *'
+    # GitHub Actions usa UTC. Dos ventanas diarias mejoran la confirmación
+    # temporal y evitan depender de una única ejecución programada.
+    - cron: '17 2 * * *'
+    - cron: '17 14 * * *'
   workflow_dispatch:
 
 permissions:
