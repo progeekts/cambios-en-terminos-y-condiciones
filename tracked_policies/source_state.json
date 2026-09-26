@@ -1,1 +1,11 @@
-{}
+{
+  "meta-terms": {
+    "candidate": {
+      "content_hash": "54c9b4ff7f49d52a384320219814c34ab7702fe8070bc42a3cdad89e9d4da886",
+      "diff_fingerprint": "ffc8689c12a506b4d1b69d3fc05439603d896ad3f2efc394ed9b1097b69cc93e",
+      "first_seen": "2026-09-26 17:45:12 UTC",
+      "confirmations": 1,
+      "effective_date": "1 de enero de 2025"
+    }
+  }
+}
