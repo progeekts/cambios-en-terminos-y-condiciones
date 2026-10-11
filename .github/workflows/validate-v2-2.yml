@@ -1,12 +1,6 @@
 name: Validar observatorio
 
 on:
-  push:
-    branches:
-      - 'v*'
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
